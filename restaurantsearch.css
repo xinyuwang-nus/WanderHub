@@ -1,0 +1,76 @@
+/* restaurantsearch.css */
+.restaurant-search {
+          max-width: 1000px;
+          margin: auto;
+          padding: 20px;
+        }
+        
+        .search-inputs {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+        }
+        
+        .search-input {
+          width: 70%;
+          padding: 10px;
+          font-size: 16px;
+        }
+        
+        .search-button {
+          width: 25%;
+          padding: 10px;
+          font-size: 16px;
+        }
+        
+        .results {
+          margin-top: 20px;
+        }
+        
+        .restaurant-card {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 20px;
+          padding: 20px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+        }
+        
+        .restaurant-info {
+          flex: 1;
+        }
+        
+        .map-and-image {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+        }
+        
+        .restaurant-bottom-image {
+          width: 30%;
+        }
+        
+        .restaurant-img {
+          width: 100%;
+          border-radius: 8px;
+        }
+        
+        .small-map {
+          flex: 1;
+          height: 200px;
+          border-radius: 8px;
+        }
+        
+        @media (min-width: 600px) {
+          .restaurant-card {
+            flex-direction: row;
+          }
+        
+          .restaurant-info {
+            width: 60%;
+          }
+        
+          .map-and-image {
+            width: 40%;
+          }
+        }
