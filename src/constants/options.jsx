@@ -1,5 +1,11 @@
 export const SelectTravelerOptions = [
   {
+    id: 0,
+    title: "Not Sure Yet",
+    // icon:'',
+    people: "N/A",
+  },
+  {
     id: 1,
     title: "Myself",
     // icon:'',
@@ -27,58 +33,64 @@ export const SelectTravelerOptions = [
 
 export const SelectBudgetOptions = [
   {
+    id: 0,
+    title: "Not Sure Yet",
+    desc: "N/A",
+  },
+  {
     id: 1,
-    title: "Cheap",
-    // desc:'',
+    title: "Economical",
+    desc:'Below 100 USD per night',
     // icon:'',
   },
   {
     id: 2,
     title: "Average",
-    // desc:'',
+    desc:'~ 100 - 200 USD per night',
     // icon:'',
   },
   {
     id: 3,
+    title: "Expensive",
+    desc:'~ 200 - 300 USD per night',
+    // icon:'',
+  },
+  {
+    id: 4,
     title: "Luxury",
-    // desc:'',
+    desc:'400 USD and above per night',
     // icon:'',
   },
 ];
 
-export const SelectAccommodationOptions = [
-  {
-    id: 0,
-    title: "All (Don't Mind)",
-    desc: "Don't have any specific accommodation preferences.",
-  },
-  {
-    id: 1,
-    title: "Hotel",
-    desc: "Stay at a hotel for comfort and services.",
-  },
-  {
-    id: 2,
-    title: "Airbnb",
-    desc: "Stay at a local's place via Airbnb.",
-  },
-  {
-    id: 3,
-    title: "Hostel",
-    desc: "A more affordable option with shared spaces.",
-  },
-  {
-    id: 4,
-    title: "Camping",
-    desc: "An outdoor adventure staying in nature.",
-  },
-];
+// export const SelectAccommodationOptions = [
+//   {
+//     id: 0,
+//     title: "Not Sure Yet",
+//     desc: "",
+//   },
+//   {
+//     id: 1,
+//     title: "Hotel",
+//     desc: "Stay at a hotel for comfort and services.",
+//   },
+//   {
+//     id: 2,
+//     title: "Hostel",
+//     desc: "A more affordable option with shared spaces.",
+//   },
+//   {
+//     id: 3,
+//     title: "Camping",
+//     desc: "An outdoor adventure staying in nature.",
+//   },
+// ];
 
 export const SelectActivityOptions = [
   {
     id: 0,
     title: "All (Don't Mind)",
-    desc: "Don't have any specific activity preferences.",
+    desc: "N/A",
   },
   {
     id: 1,
@@ -110,3 +122,6 @@ export const SelectActivityOptions = [
       "Enjoy activities such as shows, concerts or movies.",
   },
 ];
+
+
+export const AI_PROMPT='Generate Travel Plan for Destination : {destination}, for {duration} days for {traveler} with hotel budget of {budget}, with activity preference in {activities}, give me hotels options list with hotel name, hotel address, price, hotel image url, geo coordinates, rating, descriptions and suggest daily plans with place name, place details, place image url, geo coordinates, place address, pricing, time travel each of the location with each day plan. All the information should be in JSON format. If you cannot access real-time information, used the currently known information or estimate.'

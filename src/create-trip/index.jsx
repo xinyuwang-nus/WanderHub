@@ -5,10 +5,13 @@ import { Input } from "../components/ui/input";
 import {
   SelectBudgetOptions,
   SelectTravelerOptions,
-    SelectAccommodationOptions,
-    SelectActivityOptions,
+  // SelectAccommodationOptions,
+  SelectActivityOptions,
+  AI_PROMPT
 } from "../constants/options";
 import { Button } from "../components/ui/button";
+import { toast } from "sonner";
+import { chatSession } from '@/service/Gemini';
 
 function CreateTrip() {
   const [destination, setDestination] = useState("");
@@ -25,12 +28,37 @@ function CreateTrip() {
   //     console.log("form data: ", formData);
   //   }, [formData]);
 
-  const createTrip = () => {
-    if (formData?.duration <= 0) {
-      console.log("Please enter valid duration, longer than 0 days");
+  const createTrip = async () => {
+    if (
+      !formData?.destination ||
+      !formData?.duration ||
+      !formData?.budget ||
+      !formData?.traveler ||
+      !formData?.activities
+    ) {
+      // || !formData?.accommodation
+      toast("Please fill all details");
       return;
     }
+    if (formData?.duration <= 0 || formData?.duration > 7) {
+      toast("Duration should > 0 and <= 7 days");
+      return;
+    }
+    const PROMPT = AI_PROMPT.replace(
+      "{destination}",
+      formData?.destination?.label
+    )
+      .replace("{duration}", formData?.duration)
+      .replace("{traveler}", formData?.traveler)
+      .replace("{budget}", formData?.budget)
+      .replace("{activities}", formData?.activities);
+
     console.log("form data: ", formData);
+    console.log("PROMPT: ", PROMPT);
+
+    const result = await chatSession.sendMessage(PROMPT);
+
+    console.log("--", result?.response?.text());
   };
 
   return (
@@ -59,7 +87,7 @@ function CreateTrip() {
         <div>
           <h2 className="text-xl my-3">Duration</h2>
           <Input
-            placeholder="Days"
+            placeholder="Days (> 0 and <= 7 days)"
             type="number"
             onChange={(e) => handleInputChange("duration", e.target.value)}
           />
@@ -67,7 +95,7 @@ function CreateTrip() {
 
         <div>
           <h2 className="text-xl my-3">Traveler</h2>
-          <div className="grid grid-cols-4 gap-3 mt-2">
+          <div className="grid grid-cols-5 gap-3 mt-2">
             {SelectTravelerOptions.map((option, index) => (
               <div
                 key={index}
@@ -83,25 +111,25 @@ function CreateTrip() {
         </div>
 
         <div>
-          <h2 className="text-xl my-3">Budget</h2>
-          <div className="grid grid-cols-3 gap-3 mt-2">
+          <h2 className="text-xl my-3">Hotel Budget</h2>
+          <div className="grid grid-cols-5 gap-3 mt-2">
             {SelectBudgetOptions.map((option, index) => (
               <div
                 key={index}
-                onClick={() => handleInputChange("budget", option.title)}
+                onClick={() => handleInputChange("budget", option.desc)}
                 className={`p-4 border rounded-lg hover:scale-105 transition-all
-                    ${formData?.budget == option.title && "border-black"}`}>
+                    ${formData?.budget == option.desc && "border-black"}`}>
                 {/* <h2 className="text-2xl">{option.icon}</h2> */}
                 <h2 className="font-light">{option.title}</h2>
-                {/* <h2 className="text-sm text-gray-500">{option.desc}</h2> */}
+                <h2 className="text-sm text-gray-500">{option.desc}</h2>
               </div>
             ))}
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <h2 className="text-xl my-3">Accommodation</h2>
-          <div className="grid grid-cols-3 gap-3 mt-2">
+          <div className="grid grid-cols-4 gap-3 mt-2">
             {SelectAccommodationOptions.map((option, index) => (
               <div
                 key={index}
@@ -113,7 +141,7 @@ function CreateTrip() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         <div>
           <h2 className="text-xl my-3">Activity</h2>

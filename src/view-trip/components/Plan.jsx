@@ -14,7 +14,7 @@ function Plan({ trip }) {
             duration: "1 hour",
           },
           {
-            time: "Morning",
+            time: "Evening",
             name: "Cityville Museum",
             desc: "Visit the local history museum and explore its famous exhibits.",
             duration: "2 hours",
@@ -49,7 +49,7 @@ function Plan({ trip }) {
             duration: "1 hour",
           },
           {
-            time: "Morning",
+            time: "Evening",
             name: "Mountain Hike",
             desc: "Enjoy a scenic hike through the mountains with amazing views.",
             duration: "3 hours",
@@ -99,18 +99,21 @@ function Plan({ trip }) {
       },
     ],
   };
-  
+
+  // const timeSections = ["Morning", "Afternoon", "Evening", "Night"];
+
   return (
     <div>
       <h2 className="text-2xl mt-5 font-medium">Plan</h2>
 
       <div>
         {tripData?.itinerary?.map((item, index) => (
-          <div className='my-5'>
-            <h2 className="text-lg">{item.day}</h2>
+          <div key={index} className="my-5">
+            <h2 className="text-xl my-2">{item.day}</h2>
+            {/* <h3 className="text-lg text-gray-500">{section}</h3> */}
             <div className="grid md:grid-cols-2 gap-5">
               {item.plan.map((place, index) => (
-                <div className="my-1">
+                <div key={index} className="my-1">
                   <PlanItem place={place} />
                 </div>
               ))}
@@ -122,4 +125,161 @@ function Plan({ trip }) {
   );
 }
 
+
+// WITH TIME SECTIONS
+
+//   return (
+//     <div>
+//       <h2 className="text-2xl mt-5 font-medium">Plan</h2>
+
+//       <div>
+//         {tripData?.itinerary?.map((item, index) => (
+//           <div key={index} className="my-5">
+//             <h2 className="text-xl my-2">{item.day}</h2>
+//             {/* Iterate over each fixed time section */}
+//             {timeSections.map((section) => (
+//               <div key={section} className="mb-5">
+//                 <h3 className="text-lg text-gray-500">{section}</h3>
+//                 <div className="grid md:grid-cols-2 gap-5">
+//                   {item.plan
+//                     .filter((place) => place.time === section)
+//                     .map((place, index) => (
+//                       <div key={index} className="my-1">
+//                         <PlanItem place={place} />
+//                       </div>
+//                     ))}
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }
+
 export default Plan;
+
+// import React, { useState } from "react";
+// import { DndContext, closestCenter } from "@dnd-kit/core";
+// import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+// import PlanItem from "./PlanItem";
+
+// import { useSortable } from "@dnd-kit/sortable";
+// import { CSS } from "@dnd-kit/utilities";
+
+// function SortableItem({ id, place }) {
+//   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+
+//   const style = {
+//     transform: CSS.Transform.toString(transform),
+//     transition,
+//   };
+
+//   return (
+//     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+//       <PlanItem place={place} />
+//     </div>
+//   );
+// }
+
+// function Plan({ trip }) {
+//   const [tripData, setTripData] = useState({
+//     itinerary: [
+//       {
+//         day: "Day 1: Arrival and City Tour",
+//         plan: [
+//           {
+//             id: 1,
+//             time: "Morning",
+//             name: "Hotel Check-in",
+//             desc: "Arrive at Luxury Inn and check into your room.",
+//             duration: "1 hour",
+//           },
+//           {
+//             id: 2,
+//             time: "Morning",
+//             name: "Cityville Museum",
+//             desc: "Visit the local history museum and explore its famous exhibits.",
+//             duration: "2 hours",
+//           },
+//           {
+//             id: 3,
+//             time: "Afternoon",
+//             name: "Lunch at Cityville Diner",
+//             desc: "Enjoy a traditional meal at a popular local diner.",
+//             duration: "1.5 hours",
+//           },
+//           {
+//             id: 4,
+//             time: "Afternoon",
+//             name: "City Park",
+//             desc: "Relax at the beautiful park in the center of Cityville.",
+//             duration: "1 hour",
+//           },
+//           {
+//             id: 5,
+//             time: "Night",
+//             name: "Dinner at Seaside Restaurant",
+//             desc: "Enjoy a delicious seafood dinner with ocean views.",
+//             duration: "2 hours",
+//           },
+//         ],
+//       },
+//     ],
+//   });
+
+//   const timeSections = ["Morning", "Afternoon", "Evening", "Night"];
+
+//   const handleDragEnd = (event) => {
+//     const { active, over } = event;
+
+//     if (active.id !== over.id) {
+//       setTripData((prevData) => {
+//         const newPlans = [...prevData.itinerary[0].plan];
+//         const oldIndex = newPlans.findIndex((item) => item.id === active.id);
+//         const newIndex = newPlans.findIndex((item) => item.id === over.id);
+//         arrayMove(newPlans, oldIndex, newIndex);
+
+//         const newData = {
+//           ...prevData,
+//           itinerary: [{ ...prevData.itinerary[0], plan: newPlans }],
+//         };
+
+//         return newData;
+//       });
+//     }
+//   };
+
+//   return (
+//     <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+//       <h2 className="text-2xl mt-5 font-medium">Plan</h2>
+//       <div>
+//         {tripData?.itinerary?.map((item, index) => (
+//           <div key={index} className="my-5">
+//             <h2 className="text-lg">{item.day}</h2>
+//             {timeSections.map((section) => (
+//               <div key={section} className="mb-4">
+//                 <h3 className="text-xl font-semibold">{section}</h3>
+//                 <SortableContext
+//                   items={item.plan.filter((place) => place.time === section).map((place) => place.id)}
+//                   strategy={verticalListSortingStrategy}
+//                 >
+//                   <div className="grid md:grid-cols-2 gap-5">
+//                     {item.plan
+//                       .filter((place) => place.time === section)
+//                       .map((place, index) => (
+//                         <SortableItem key={place.id} id={place.id} place={place} />
+//                       ))}
+//                   </div>
+//                 </SortableContext>
+//               </div>
+//             ))}
+//           </div>
+//         ))}
+//       </div>
+//     </DndContext>
+//   );
+// }
+
+// export default Plan;

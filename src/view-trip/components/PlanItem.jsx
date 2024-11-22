@@ -5,9 +5,9 @@ import { CiPlay1 } from "react-icons/ci";
 
 function PlanItem({ place }) {
   return (
-    <>
-      <h2 className="font-light text-sm text-gray-500">{place.time}</h2>
-      <div className="border rounded-xl p-3 mt-2 flex gap-5 hover:scale-105 transition-all">
+    <div className="hover:scale-105 transition-all">
+      {/* <h2 className="font-light text-sm text-gray-500">{place.time}</h2> */}
+      <div className="border rounded-xl p-3 flex gap-5 mt-2">
         <img
           src="/placeholder-image-square.jpeg"
           className="w-[150px] h-[150px] rounded-xl"
@@ -24,7 +24,7 @@ function PlanItem({ place }) {
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
