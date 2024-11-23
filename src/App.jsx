@@ -1,4 +1,6 @@
 import './App.css'
+import Header from './components/custom/header.jsx';
+import Footer from './components/custom/Footer.jsx';
 import Landing from './components/custom/Landing.jsx'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import CreateTrip from './create-trip/index.jsx';
@@ -29,8 +31,10 @@ function App() {
 
   return (
     <>
-      <Toaster />
-      <RouterProvider router={router} />
+      <Header />
+        <Toaster />
+        <RouterProvider router={router} />
+      <Footer />
     </>
   )
 }

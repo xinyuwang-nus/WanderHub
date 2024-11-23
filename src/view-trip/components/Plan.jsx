@@ -111,10 +111,11 @@ function Plan({ trip }) {
           <div key={index} className="my-5">
             <h2 className="text-xl my-2">{item.day}</h2>
             {/* <h3 className="text-lg text-gray-500">{section}</h3> */}
-            <div className="grid md:grid-cols-2 gap-5">
+            {/* <div className="grid md:grid-cols-2 gap-5"> */}
+            <div className="grid md:grid-cols-2 gap-5 auto-rows-fr">
               {item.plan.map((place, index) => (
                 <div key={index} className="my-1">
-                  <PlanItem place={place} />
+                  <PlanItem key={index} place={place} />
                 </div>
               ))}
             </div>
@@ -124,6 +125,7 @@ function Plan({ trip }) {
     </div>
   );
 }
+
 
 
 // WITH TIME SECTIONS
