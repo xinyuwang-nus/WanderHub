@@ -7,15 +7,27 @@ import {
   SelectTravelerOptions,
   // SelectAccommodationOptions,
   SelectActivityOptions,
-  AI_PROMPT
+  AI_PROMPT,
 } from "../constants/options";
 import { Button } from "../components/ui/button";
 import { toast } from "sonner";
-import { chatSession } from '@/service/Gemini';
+import { chatSession } from "@/service/Gemini";
+import { FaGoogle } from "react-icons/fa";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from 'axios';
+
 
 function CreateTrip() {
   const [destination, setDestination] = useState("");
   const [formData, setFormData] = useState({});
+  const [showSignInWindow, setShowSignInWindow] = useState(false);
 
   const handleInputChange = (key, value) => {
     setFormData({
@@ -28,7 +40,20 @@ function CreateTrip() {
   //     console.log("form data: ", formData);
   //   }, [formData]);
 
+  const login = useGoogleLogin({
+    onSuccess: codeResponse => {console.log(codeResponse); getProfile(codeResponse)},
+    onError: error => console.log(error)
+  });
+
   const createTrip = async () => {
+    const user = localStorage.getItem("user");
+
+    if (!user) {
+      // require sign in and show sign in window
+      setShowSignInWindow(true);
+      return;
+    }
+
     if (
       !formData?.destination ||
       !formData?.duration ||
@@ -56,10 +81,43 @@ function CreateTrip() {
     console.log("form data: ", formData);
     console.log("PROMPT: ", PROMPT);
 
+    // generate trip by sending message to LLM API
     const result = await chatSession.sendMessage(PROMPT);
 
     console.log("--", result?.response?.text());
   };
+
+  // const getProfile = (tokenInfo) => {
+  //   axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?acess_token=${tokenInfo?.access_token}`, {
+  //     headers: {
+  //       Authorization: `Bearer ${tokenInfo?.access_token}`,
+  //       Accept: 'Application/json'
+  //     }
+  //   }).then((response) => {
+  //     console.log(response);
+  //     localStorage.setItem('user', JSON.stringify(response.data));
+  //     setShowSignInWindow(false);
+  //     createTrip();
+  //   })
+  // }
+
+  const getProfile = (tokenInfo) => {
+    fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`, {
+      headers: {
+        Authorization: `Bearer ${tokenInfo?.access_token}`,
+        Accept: 'Application/json'
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        localStorage.setItem('user', JSON.stringify(data));
+        setShowSignInWindow(false);
+        createTrip();
+      })
+      .catch((error) => console.log(error));
+  };
+  
 
   return (
     <div className="sm:px-10 md:px-30 lg:px-60 xl:px-80 px-5 my-10">
@@ -165,6 +223,30 @@ function CreateTrip() {
           </Button>
         </div>
       </div>
+      
+      <Dialog open={showSignInWindow}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle></DialogTitle>
+            <DialogDescription>
+              <img src="/logo.svg" />
+              <h2 className="text-2xl mt-5 text-black">Sign In</h2>
+              <p className="font-light">Sign in to get your customized trip</p>
+
+              <div className="mt-5 flex justify-center">
+                <Button
+                  variant="secondary"
+                  onClick={login}
+                  className="w-1/2 items-center">
+                  <FaGoogle />
+                  Sign In With Google
+                </Button>
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 }
