@@ -21,13 +21,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useGoogleLogin } from "@react-oauth/google";
-import axios from 'axios';
-
+import axios from "axios";
 
 function CreateTrip() {
   const [destination, setDestination] = useState("");
   const [formData, setFormData] = useState({});
   const [showSignInWindow, setShowSignInWindow] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const API_URL = "http://localhost:5038";
 
   const handleInputChange = (key, value) => {
     setFormData({
@@ -41,8 +43,11 @@ function CreateTrip() {
   //   }, [formData]);
 
   const login = useGoogleLogin({
-    onSuccess: codeResponse => {console.log(codeResponse); getProfile(codeResponse)},
-    onError: error => console.log(error)
+    onSuccess: (codeResponse) => {
+      console.log(codeResponse);
+      getProfile(codeResponse);
+    },
+    onError: (error) => console.log(error),
   });
 
   const createTrip = async () => {
@@ -69,6 +74,8 @@ function CreateTrip() {
       toast("Duration should > 0 and <= 7 days");
       return;
     }
+    setLoading(true);
+    toast("Generating trip...");
     const PROMPT = AI_PROMPT.replace(
       "{destination}",
       formData?.destination?.label
@@ -85,6 +92,8 @@ function CreateTrip() {
     const result = await chatSession.sendMessage(PROMPT);
 
     console.log("--", result?.response?.text());
+    setLoading(false);
+    saveTrip(result?.response?.text());
   };
 
   // const getProfile = (tokenInfo) => {
@@ -102,22 +111,57 @@ function CreateTrip() {
   // }
 
   const getProfile = (tokenInfo) => {
-    fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`, {
-      headers: {
-        Authorization: `Bearer ${tokenInfo?.access_token}`,
-        Accept: 'Application/json'
+    fetch(
+      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
+      {
+        headers: {
+          Authorization: `Bearer ${tokenInfo?.access_token}`,
+          Accept: "Application/json",
+        },
       }
-    })
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        localStorage.setItem('user', JSON.stringify(data));
+        localStorage.setItem("user", JSON.stringify(data));
         setShowSignInWindow(false);
         createTrip();
       })
       .catch((error) => console.log(error));
   };
-  
+
+  const saveTrip = async (trip) => {
+    setLoading(true);
+    toast("Saving your trip...");
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const tripData = {
+      selection: formData,
+      trip: JSON.parse(trip),
+      email: user?.email,
+      id: Date.now().toString(),
+    };
+
+    try {
+      const response = await fetch(API_URL + "/api/trips", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tripData),
+      });
+
+      const result = await response.json();
+      console.log("Trip saved:", result);
+      toast("Trip saved successfully!");
+    } catch (error) {
+      console.error("Error saving trip:", error);
+      toast("Failed to save trip");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="sm:px-10 md:px-30 lg:px-60 xl:px-80 px-5 my-10">
@@ -223,7 +267,7 @@ function CreateTrip() {
           </Button>
         </div>
       </div>
-      
+
       <Dialog open={showSignInWindow}>
         <DialogContent>
           <DialogHeader>
@@ -246,7 +290,6 @@ function CreateTrip() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
-
     </div>
   );
 }
