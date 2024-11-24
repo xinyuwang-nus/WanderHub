@@ -33,16 +33,6 @@ MongoClient.connect(CONNECTION_STRING)
     process.exit(1);
   });
 
-app.get("/api/trips", async (req, res) => {
-  try {
-    const trips = await database.collection("trips").find({}).toArray();
-    res.status(200).send(trips);
-  } catch (error) {
-    console.error("Error fetching trips:", error);
-    res.status(500).send("Failed to fetch trips");
-  }
-})
-
 app.post("/api/trips", async (req, res) => {
   try {
     const trip = req.body;
@@ -54,4 +44,20 @@ app.post("/api/trips", async (req, res) => {
     res.status(500).send("Failed to save trip");
   }
 });
+
+app.get("/api/trips/:tripId", async (req, res) => {
+  const { tripId } = req.params; // Extract tripId from URL parameters
+  try {
+    const trip = await database.collection("trips").findOne({ id: tripId });
+    if (trip) {
+      res.status(200).send(trip);
+    } else {
+      res.status(404).send({ error: "Trip not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching trip:", error);
+    res.status(500).send("Failed to fetch trip");
+  }
+});
+
 

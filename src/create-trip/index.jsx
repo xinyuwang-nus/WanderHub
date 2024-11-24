@@ -23,12 +23,15 @@ import {
 import { useGoogleLogin } from "@react-oauth/google";
 import { AiOutlineLoading } from "react-icons/ai";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function CreateTrip() {
   const [destination, setDestination] = useState("");
   const [formData, setFormData] = useState({});
   const [showSignInWindow, setShowSignInWindow] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const navigate= useNavigate();
 
   const API_URL = "http://localhost:5038";
 
@@ -131,7 +134,7 @@ function CreateTrip() {
   };
 
   const saveTrip = async (trip) => {
-    toast("Saving your trip...");
+    // toast("Saving your trip...");
 
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -159,6 +162,7 @@ function CreateTrip() {
       toast("Failed to save trip");
     } finally {
       setLoading(false);
+      navigate("/view-trip/" + tripData.id);
     }
   };
 

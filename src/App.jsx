@@ -4,7 +4,7 @@ import Footer from './components/custom/Footer.jsx';
 import Landing from './components/custom/Landing.jsx'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import CreateTrip from './create-trip/index.jsx';
-import ViewTrip from './view-trip/index.jsx';
+import ViewTrip from './view-trip/[tripId]/index.jsx';
 import UserTrip from './user-trip/index.jsx';
 import { Toaster } from 'sonner';
 
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     element: <CreateTrip/>
   },
   {
-    path: "/view-trip",
+    path: "/view-trip/:tripId",
     element: <ViewTrip/>
   },
   {
