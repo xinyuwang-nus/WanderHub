@@ -21,6 +21,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useGoogleLogin } from "@react-oauth/google";
+import { AiOutlineLoading } from "react-icons/ai";
 import axios from "axios";
 
 function CreateTrip() {
@@ -92,7 +93,6 @@ function CreateTrip() {
     const result = await chatSession.sendMessage(PROMPT);
 
     console.log("--", result?.response?.text());
-    setLoading(false);
     saveTrip(result?.response?.text());
   };
 
@@ -131,7 +131,6 @@ function CreateTrip() {
   };
 
   const saveTrip = async (trip) => {
-    setLoading(true);
     toast("Saving your trip...");
 
     const user = JSON.parse(localStorage.getItem("user"));
@@ -262,8 +261,8 @@ function CreateTrip() {
         </div>
 
         <div className="my-10 flex justify-center">
-          <Button onClick={createTrip} className="text-lg w-1/2">
-            Create Your Trip
+          <Button onClick={createTrip} disabled={loading} className="text-lg w-1/2">
+            {loading ? <AiOutlineLoading className='animate-spin'/> : "Create Your Trip"} 
           </Button>
         </div>
       </div>
