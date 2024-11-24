@@ -7,8 +7,8 @@ import {
   SelectTravelerOptions,
   // SelectAccommodationOptions,
   SelectActivityOptions,
-  AI_PROMPT,
 } from "../constants/options";
+import { AI_PROMPT } from "../constants/prompt";
 import { Button } from "../components/ui/button";
 import { toast } from "sonner";
 import { chatSession } from "@/service/Gemini";

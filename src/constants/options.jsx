@@ -122,6 +122,3 @@ export const SelectActivityOptions = [
       "Enjoy activities such as shows, concerts or movies.",
   },
 ];
-
-
-export const AI_PROMPT='Generate Travel Plan for Destination : {destination}, for {duration} days for {traveler} with hotel budget of {budget}, with activity preference in {activities}, give me hotels options list with hotel name, hotel address, price, hotel image url, geo coordinates, rating, descriptions and suggest daily plans with place name, place details, place image url, geo coordinates, place address, pricing, time travel each of the location with each day plan. All the information should be in JSON format. If you cannot access real-time information, used the currently known information or estimate.'

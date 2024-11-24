@@ -38,7 +38,7 @@ function ViewTrip() {
     <div className="sm:px-20 md:px-30 lg:px-60 xl:px-80 px-10 my-10">
       <InfoTag tripData={tripData} />
       <Accommodation tripData={tripData}/>
-      <Plan />
+      <Plan tripData={tripData}/>
     </div>
   );
 }
