@@ -99,38 +99,25 @@ function CreateTrip() {
     saveTrip(result?.response?.text());
   };
 
-  // const getProfile = (tokenInfo) => {
-  //   axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?acess_token=${tokenInfo?.access_token}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${tokenInfo?.access_token}`,
-  //       Accept: 'Application/json'
-  //     }
-  //   }).then((response) => {
-  //     console.log(response);
-  //     localStorage.setItem('user', JSON.stringify(response.data));
-  //     setShowSignInWindow(false);
-  //     createTrip();
-  //   })
-  // }
-
-  const getProfile = (tokenInfo) => {
-    fetch(
-      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
-      {
-        headers: {
-          Authorization: `Bearer ${tokenInfo?.access_token}`,
-          Accept: "Application/json",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        localStorage.setItem("user", JSON.stringify(data));
-        setShowSignInWindow(false);
-        createTrip();
-      })
-      .catch((error) => console.log(error));
+  const getProfile = async (tokenInfo) => {
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
+        {
+          headers: {
+            Authorization: `Bearer ${tokenInfo?.access_token}`,
+            Accept: "Application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      console.log("data: ", data);
+      localStorage.setItem("user", JSON.stringify(data));
+      setShowSignInWindow(false);
+      createTrip();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const saveTrip = async (trip) => {
@@ -163,6 +150,7 @@ function CreateTrip() {
     } finally {
       setLoading(false);
       navigate("/view-trip/" + tripData.id);
+      window.location.reload();
     }
   };
 

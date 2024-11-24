@@ -1,24 +1,127 @@
-import React from 'react'
-import { Button } from '../ui/button'
+import React from "react";
+import { Button } from "../ui/button";
+import { useState, useEffect } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { googleLogout } from "@react-oauth/google";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+import { useGoogleLogin } from "@react-oauth/google";
+import { FaGoogle } from "react-icons/fa";
 
 function Header() {
-    return (
-      <div className="p-3 shadow-sm flex items-center px-5">
-        {/* Left Section (Spacer) */}
-        <div className="flex-none w-1/3"></div>
-  
-        {/* Center Section (Logo) */}
-        <div className="flex-grow flex justify-center w-1/3">
-          <img src="/logo.svg" alt="Logo" />
-        </div>
-  
-        {/* Right Section (Sign In Button) */}
-        <div className="flex-none w-1/3 flex justify-end">
-          <Button variant="secondary">Sign In</Button>
-        </div>
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // const [showSignInWindow, setShowSignInWindow] = useState(false);
+
+  // useEffect(() => {
+  //   console.log(user);
+  // }, []);
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      console.log(codeResponse);
+      getProfile(codeResponse);
+    },
+    onError: (error) => console.log(error),
+  });
+
+  // TODO: factor out login function
+  const getProfile = async (tokenInfo) => {
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
+        {
+          headers: {
+            Authorization: `Bearer ${tokenInfo?.access_token}`,
+            Accept: "Application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      console.log("data: ", data);
+      localStorage.setItem("user", JSON.stringify(data));
+      // setShowSignInWindow(false);
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <div className="p-3 shadow-sm flex items-center px-5">
+      {/* Left Section (Spacer) */}
+      <div className="flex-none w-1/3"></div>
+
+      {/* Center Section (Logo) */}
+      <div className="flex-grow flex justify-center w-1/3">
+        <img src="/logo.svg" alt="Logo" />
       </div>
-    );
-  }
-  
-  export default Header;
-  
+
+      {/* Right Section (User) */}
+      <div className="flex-none w-1/3 flex justify-end">
+        {user ? (
+          <div className="flex items-center gap-2">
+            <Popover>
+              <PopoverTrigger>
+                <img
+                  src={user?.picture}
+                  className="h-[30px] w-[30px] rounded-full"
+                />
+              </PopoverTrigger>
+              <PopoverContent>
+                <Button variant="outline" className="mx-2">
+                  My Saved Trips
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    googleLogout();
+                    localStorage.removeItem("user");
+                    window.location.reload();
+                  }}>
+                  Sign Out
+                </Button>
+              </PopoverContent>
+            </Popover>
+          </div>
+        ) : (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">Sign In</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <img src="/logo.svg" alt="Logo"/>
+              <h2 className="text-2xl text-black">Sign In</h2>
+              <p className="font-light">Sign in to get your customized trip</p>
+              <div className="flex justify-center">
+                <Button
+                  variant="secondary"
+                  onClick={login}
+                  className="w-1/2 items-center">
+                  <FaGoogle />
+                  Sign In With Google
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          // <Button onClick={()=>setShowSignInWindow(true)} variant="secondary">Sign In</Button>
+        )}
+      </div>
+
+    </div>
+  );
+}
+
+export default Header;
