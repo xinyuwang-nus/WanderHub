@@ -156,7 +156,7 @@ function CreateTrip() {
 
   return (
     <div className="sm:px-10 md:px-30 lg:px-60 xl:px-80 px-5 my-10">
-      <h2 className="text-5xl mt-20">Tell us about your information</h2>
+      <h2 className="text-5xl mt-20">Tell us about your new trip</h2>
       <p className="mt-3 text-gray-500 text-xl font-light">
         Get customized trip based on your information!
       </p>

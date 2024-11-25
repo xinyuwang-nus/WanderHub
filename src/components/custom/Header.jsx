@@ -73,7 +73,7 @@ function Header() {
       {/* Right Section (User) */}
       <div className="flex-none w-1/3 flex justify-end">
         {user ? (
-          <div className="flex items-center gap-2">
+          <div>
             <Popover>
               <PopoverTrigger>
                 <img
@@ -81,20 +81,25 @@ function Header() {
                   className="h-[30px] w-[30px] rounded-full"
                 />
               </PopoverTrigger>
-              <PopoverContent>
+              <PopoverContent className="flex items-center gap-2">
+                <a href="/create-trip">
+                  <Button variant="outline" className="text-black">
+                    New Trip
+                  </Button>
+                </a>
                 <a href="/user-trip">
-                  <Button variant="outline" className="mx-3">
-                    My Trips History
+                  <Button variant="outline" className="text-black">
+                    History
                   </Button>
                 </a>
                 <Button
-                  variant="outline"
+                  variant="outline" className="text-black"
                   onClick={() => {
                     googleLogout();
                     localStorage.removeItem("user");
                     window.location.reload();
                   }}>
-                  Sign Me Out
+                  Sign Out
                 </Button>
               </PopoverContent>
             </Popover>

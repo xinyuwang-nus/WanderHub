@@ -30,9 +30,8 @@ function ViewTrip() {
     }
   };
 
-  if (status.loading) return <div>Loading trip data...</div>;
-  if (status.error) return <div>Error: {status.error}</div>;
-  if (!tripData) return <div>No trip found</div>;
+  if (status.loading) return <p className="text-center text-2xl font-light text-gray-500 col-span-full mt-10">Loading trip data...</p>;
+  if (status.error) return <p className="text-center text-2xl font-light text-gray-500 col-span-full mt-10">Error: {status.error}</p>;
 
   return (
     <div className="sm:px-20 md:px-30 lg:px-60 xl:px-80 px-10 my-10">

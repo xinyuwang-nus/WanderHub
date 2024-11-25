@@ -43,8 +43,8 @@ function UserTrip() {
     }
   };
 
-  if (status.loading) return <p className="text-center text-2xl font-light text-gray-500 col-span-full">Loading trip data...</p>;
-  if (status.error) return <div>Error: {status.error}</div>;
+  if (status.loading) return <p className="text-center text-2xl font-light text-gray-500 col-span-full mt-10">Loading user trip history...</p>;
+  if (status.error) return <p className="text-center text-2xl font-light text-gray-500 col-span-full mt-10">Error: {status.error}</p>;
 
   return (
     <div className="sm:px-20 md:px-30 lg:px-60 xl:px-80 px-10 my-10">
