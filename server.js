@@ -1,6 +1,6 @@
-import Express from 'express';
-import { MongoClient } from 'mongodb';
-import cors from 'cors'; // to allow cross-origin requests
+import Express from "express";
+import { MongoClient } from "mongodb";
+import cors from "cors"; // to allow cross-origin requests
 import dotenv from "dotenv"; // to read .env file
 
 dotenv.config({ path: ".env.local" });
@@ -12,7 +12,7 @@ app.use(cors());
 app.use(Express.json());
 
 var CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING;
-var DATABASE_NAME="WanderHub"
+var DATABASE_NAME = "WanderHub";
 
 var database;
 const port = 5038;
@@ -56,8 +56,24 @@ app.get("/api/trips/:tripId", async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching trip:", error);
-    res.status(500).send("Failed to fetch trip");
+    res.status(500).send({ error: "Failed to fetch trip"});
   }
 });
 
-
+app.get("/api/user-trips", async (req, res) => {
+  const userEmail = req.query.email; // Get email from query parameters
+  if (!userEmail) {
+    return res.status(400).send({ error: "User email is required" });
+  }
+  try {
+    const trips = await database.collection("trips").find({ email: userEmail }).toArray();
+    if (trips) {
+      res.status(200).send(trips);
+    } else {
+      res.status(404).send({ error: "Trips not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching user trips:", error);
+    res.status(500).send({ error: "Failed to fetch user trips" });
+  }
+});

@@ -22,7 +22,7 @@ function ViewTrip() {
       if (!response.ok) throw new Error("Failed to fetch trip data");
       const data = await response.json();
       setTripData(data);
-      console.log("fetched data, ",  data); // TODO
+      console.log("fetched data, ",  data);
     } catch (err) {
       setStatus({ loading: false, error: err.message });
     } finally {

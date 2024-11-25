@@ -14,6 +14,7 @@ function Landing() {
           <span className="text-[80px] font-medium">WanderHub</span>
         </h1>
         <p className="text-xl text-gray-500 font-light">
+          {/* TODO */}
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>

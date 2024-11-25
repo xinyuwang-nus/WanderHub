@@ -3,7 +3,7 @@ export const SelectTravelerOptions = [
     id: 0,
     title: "Not Sure Yet",
     // icon:'',
-    people: "N/A",
+    people: "Any number of people",
   },
   {
     id: 1,
@@ -35,7 +35,7 @@ export const SelectBudgetOptions = [
   {
     id: 0,
     title: "Not Sure Yet",
-    desc: "N/A",
+    desc: "Any budget range",
   },
   {
     id: 1,
@@ -89,8 +89,8 @@ export const SelectBudgetOptions = [
 export const SelectActivityOptions = [
   {
     id: 0,
-    title: "All (Don't Mind)",
-    desc: "N/A",
+    title: "Any Activities",
+    desc: "",
   },
   {
     id: 1,

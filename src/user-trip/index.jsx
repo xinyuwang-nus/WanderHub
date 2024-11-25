@@ -1,49 +1,54 @@
 import UserTripItem from "./UserTripItem";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function UserTrip() {
-  var userTrips = [
-    {
-      userSelection: {
-        destination: "Tokyo, Japan",
-        duration: 5,
-        budget: "$1500",
-      },
-    },
-    {
-      userSelection: {
-        destination: "Paris, France",
-        duration: 7,
-        budget: "$2000",
-      },
-    },
-    {
-      userSelection: {
-        destination: "Sydney, Australia",
-        duration: 10,
-        budget: "$3000",
-      },
-    },
-    {
-      userSelection: {
-        destination: "New York, USA",
-        duration: 4,
-        budget: "$1200",
-      },
-    },
-    {
-      userSelection: {
-        destination: "Singapore",
-        duration: 3,
-        budget: "$1000",
-      },
-    },
-  ];
 
-  // userTrips = [];
+  const [userTrips, setUserTrips] = useState([]);
+  const [status, setStatus] = useState({ loading: true, error: null }); 
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    GetUserTrips();
+  },[])
+
+  /**
+   * Fetch all trips for the logged-in user
+   */
+  const GetUserTrips = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    // console.log(user);
+
+    if (!user) {
+      navigate("/"); // Redirect if user is not logged in
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:5038/api/user-trips?email=${user.email}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch user trips");
+      }
+
+      const trips = await response.json();
+      setUserTrips(trips);
+      // console.log("fetched data, ",  trips);
+    } catch (err) {
+      setStatus({ loading: false, error: err.message });
+    } finally {
+      setStatus((prev) => ({ ...prev, loading: false }));
+    }
+  };
+
+  if (status.loading) return <p className="text-center text-2xl font-light text-gray-500 col-span-full">Loading trip data...</p>;
+  if (status.error) return <div>Error: {status.error}</div>;
 
   return (
     <div className="sm:px-20 md:px-30 lg:px-60 xl:px-80 px-10 my-10">
-      <h2 className="font-medium text-4xl">My Trips</h2>
+      <h2 className="font-medium text-4xl">Trips History</h2>
 
       <div className="grid grid-cols-2 md:grid-cols-3 my-10 gap-8">
         {userTrips?.length > 0 ? (

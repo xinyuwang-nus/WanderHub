@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 import { useGoogleLogin } from "@react-oauth/google";
 import { FaGoogle } from "react-icons/fa";
@@ -65,7 +65,9 @@ function Header() {
 
       {/* Center Section (Logo) */}
       <div className="flex-grow flex justify-center w-1/3">
-        <img src="/logo.svg" alt="Logo" />
+        <a href="/">
+          <img src="/logo.svg" alt="Logo" />
+        </a>
       </div>
 
       {/* Right Section (User) */}
@@ -80,9 +82,11 @@ function Header() {
                 />
               </PopoverTrigger>
               <PopoverContent>
-                <Button variant="outline" className="mx-2">
-                  My Saved Trips
-                </Button>
+                <a href="/user-trip">
+                  <Button variant="outline" className="mx-3">
+                    My Trips History
+                  </Button>
+                </a>
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -90,7 +94,7 @@ function Header() {
                     localStorage.removeItem("user");
                     window.location.reload();
                   }}>
-                  Sign Out
+                  Sign Me Out
                 </Button>
               </PopoverContent>
             </Popover>
@@ -101,7 +105,7 @@ function Header() {
               <Button variant="secondary">Sign In</Button>
             </DialogTrigger>
             <DialogContent>
-              <img src="/logo.svg" alt="Logo"/>
+              <img src="/logo.svg" alt="Logo" />
               <h2 className="text-2xl text-black">Sign In</h2>
               <p className="font-light">Sign in to get your customized trip</p>
               <div className="flex justify-center">
@@ -119,7 +123,6 @@ function Header() {
           // <Button onClick={()=>setShowSignInWindow(true)} variant="secondary">Sign In</Button>
         )}
       </div>
-
     </div>
   );
 }
