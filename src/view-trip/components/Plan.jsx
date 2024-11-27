@@ -5,7 +5,7 @@ function Plan({ tripData }) {
   
   return (
     <div>
-      <h2 className="text-2xl mt-5 font-medium">Plan</h2>
+      <h2 className="text-2xl mt-5 font-medium">Daily Plan</h2>
 
       <div>
         {tripData?.trip?.dailyPlans?.map((plan, index) => (

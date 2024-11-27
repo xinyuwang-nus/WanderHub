@@ -8,10 +8,8 @@ import {
   // SelectAccommodationOptions,
   SelectActivityOptions,
 } from "../constants/options";
-import { AI_PROMPT } from "../constants/prompt";
 import { Button } from "../components/ui/button";
 import { toast } from "sonner";
-import { chatSession } from "@/service/Gemini";
 import { FaGoogle } from "react-icons/fa";
 import {
   Dialog,
@@ -22,7 +20,6 @@ import {
 } from "@/components/ui/dialog";
 import { useGoogleLogin } from "@react-oauth/google";
 import { AiOutlineLoading } from "react-icons/ai";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function CreateTrip() {
@@ -72,23 +69,35 @@ function CreateTrip() {
 
     setLoading(true);
     toast("Generating trip...");
-    const PROMPT = AI_PROMPT.replace(
-      "{destination}",
-      formData?.destination?.label
-    )
-      .replace("{duration}", formData?.duration)
-      .replace("{traveler}", formData?.traveler)
-      .replace("{budget}", formData?.budget)
-      .replace("{activities}", formData?.activities);
 
-    console.log("form data: ", formData);
-    console.log("PROMPT: ", PROMPT);
-
-    // generate trip by sending message to LLM API
-    const result = await chatSession.sendMessage(PROMPT);
-
-    console.log("--", result?.response?.text());
-    saveTrip(result?.response?.text());
+    const requestBody = {
+      destination: formData?.destination?.label,
+      duration: formData?.duration,
+      traveler: formData?.traveler,
+      budget: formData?.budget,
+      activities: formData?.activities,
+    };
+    
+    try {
+      const response = await fetch(API_URL + "/api/create-trip", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+    
+      if (!response.ok) {
+        throw new Error(`Failed to fetch travel plan: ${response.statusText}`);
+      }
+    
+      const result = await response.json();
+      console.log("Generated trip: ", result);
+    
+      saveTrip(result); 
+    } catch (error) {
+      console.error("Error generating trip:", error);
+    }    
   };
 
   const login = useGoogleLogin({
@@ -127,7 +136,7 @@ function CreateTrip() {
 
     const tripData = {
       selection: formData,
-      trip: JSON.parse(trip),
+      trip: trip,
       email: user?.email,
       id: Date.now().toString(),
     };

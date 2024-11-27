@@ -17,7 +17,10 @@ function PlanItem({ place }) {
     try {
       const data = { textQuery: place?.name };
       const response = await GetPlaceDetails(data);
-      const photoUrl = PHOTO_REF_URL.replace("{NAME}", response?.data?.places?.[0]?.photos?.[0]?.name);
+      const photoUrl = PHOTO_REF_URL.replace(
+        "{NAME}",
+        response?.data?.places?.[0]?.photos?.[0]?.name
+      );
       setImage(photoUrl);
     } catch (error) {
       console.error("Error fetching place photo:", error);
@@ -53,16 +56,12 @@ function PlanItem({ place }) {
             style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
             {place?.details}
           </p>
-          {/* TODO: travelTime and price (currency conversion?) */}
-          {/* <h2 className="text-sm text-gray-500 my-2">{place?.travelTime}</h2> */}
-          <p className="font-light text-sm text-gray-500 my-2">
-            Price:
-            {typeof place?.pricing === "string"
-              ? place?.pricing
-              : place?.pricing?.adult || "Not available"}
+          <h2 className="text-sm text-gray-500">{place?.estimatedTime}</h2>
+          <p className="font-light text-sm text-gray-500">
+            Price: {place?.pricing}
           </p>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 mt-1">
             <Button size="sm" variant="ghost">
               <CiLocationOn />
             </Button>
