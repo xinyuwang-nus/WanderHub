@@ -77,3 +77,48 @@ app.get("/api/user-trips", async (req, res) => {
     res.status(500).send({ error: "Failed to fetch user trips" });
   }
 });
+
+
+// Endpoint to save unsplash images for a trip
+
+app.post("/api/trip-images", async (req, res) => {
+  const { tripId, images } = req.body;
+
+  if (!tripId || !images || !Array.isArray(images)) {
+    return res.status(400).json({ error: "Invalid request payload" });
+  }
+
+  try {
+    const collection = database.collection("tripImages");
+
+    // Use upsert to avoid duplicates
+    const result = await collection.updateOne(
+      { tripId }, 
+      { $set: { images } },
+      { upsert: true } // Insert if no document matches
+    );
+
+    res.status(200).json({ message: "Images saved/updated successfully", result });
+  } catch (error) {
+    console.error("Error saving trip images:", error);
+    res.status(500).json({ error: "Failed to save trip images" });
+  }
+});
+
+
+// Endpoint to retrieve unsplash images for a trip
+app.get("/api/trip-images/:tripId", async (req, res) => {
+  const { tripId } = req.params;
+
+  try {
+    const collection = database.collection("tripImages");
+    const entry = await collection.findOne({ tripId });
+    if (!entry) {
+      return res.status(404).json({ error: "Images not found for the specified tripId" });
+    }
+    res.status(200).json(entry);
+  } catch (error) {
+    console.error("Error fetching trip images:", error);
+    res.status(500).json({ error: "Failed to fetch trip images" });
+  }
+});
