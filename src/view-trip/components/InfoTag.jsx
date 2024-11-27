@@ -5,7 +5,7 @@ import { CiShare2 } from "react-icons/ci";
 
 function InfoTag({ tripData }) {
   const [images, setImages] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const handleNext = () => {

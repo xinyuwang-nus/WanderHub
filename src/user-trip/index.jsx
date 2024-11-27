@@ -55,7 +55,7 @@ function UserTrip() {
       <div className="grid grid-cols-2 md:grid-cols-3 my-10 gap-8">
         {userTrips?.length > 0 ? (
           userTrips.map((trip, index) => (
-            <UserTripItem trip={trip} key={index} />
+            <UserTripItem tripData={trip} key={index} />
           ))
         ) : (
           <p className="text-center text-2xl font-light text-gray-500 col-span-full">
