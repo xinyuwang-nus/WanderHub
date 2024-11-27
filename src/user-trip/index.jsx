@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 function UserTrip() {
 
+  // TODO: delete history
+
   const [userTrips, setUserTrips] = useState([]);
   const [status, setStatus] = useState({ loading: true, error: null }); 
   const navigate = useNavigate();

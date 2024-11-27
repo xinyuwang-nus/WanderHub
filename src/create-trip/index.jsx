@@ -46,23 +46,7 @@ function CreateTrip() {
   //     console.log("form data: ", formData);
   //   }, [formData]);
 
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => {
-      console.log(codeResponse);
-      getProfile(codeResponse);
-    },
-    onError: (error) => console.log(error),
-  });
-
   const createTrip = async () => {
-    const user = localStorage.getItem("user");
-
-    if (!user) {
-      // require sign in and show sign in window
-      setShowSignInWindow(true);
-      return;
-    }
-
     if (
       !formData?.destination ||
       !formData?.duration ||
@@ -78,6 +62,14 @@ function CreateTrip() {
       toast("Duration should > 0 and <= 7 days");
       return;
     }
+
+    const user = localStorage.getItem("user");
+    if (!user) {
+      // require sign in and show sign in window
+      setShowSignInWindow(true);
+      return;
+    }
+
     setLoading(true);
     toast("Generating trip...");
     const PROMPT = AI_PROMPT.replace(
@@ -98,6 +90,14 @@ function CreateTrip() {
     console.log("--", result?.response?.text());
     saveTrip(result?.response?.text());
   };
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      console.log(codeResponse);
+      getProfile(codeResponse);
+    },
+    onError: (error) => console.log(error),
+  });
 
   const getProfile = async (tokenInfo) => {
     try {

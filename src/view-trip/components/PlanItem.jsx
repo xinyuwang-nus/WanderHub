@@ -1,17 +1,51 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
 import { CiLocationOn } from "react-icons/ci";
 import { CiPlay1 } from "react-icons/ci";
+import { GetPlaceDetails, PHOTO_REF_URL } from "@/service/GooglePhoto";
 
 function PlanItem({ place }) {
+  const [image, setImage] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getPhoto();
+  }, [place]);
+
+  const getPhoto = async () => {
+    try {
+      const data = { textQuery: place?.name };
+      const response = await GetPlaceDetails(data);
+      const photoName = response?.data?.places?.[0]?.photos?.[0]?.name;
+      if (photoName) {
+        const photoUrl = PHOTO_REF_URL.replace("{NAME}", photoName);
+        setImage(photoUrl);
+      } else {
+        console.warn("Photo name not found in the response.");
+      }
+    } catch (error) {
+      console.error("Error fetching place photo:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     // <div className="hover:scale-105 transition-all flex flex-col h-full">
     <div className="transition-all flex flex-col h-full">
       <div className="border rounded-xl p-3 flex gap-5 h-full">
-        <img
-          src="/placeholder-image-square.jpeg"
-          className="w-[150px] h-[150px] rounded-xl"
-        />
+        {loading ? (
+          <div className="w-[150] h-[150px] flex items-center justify-center bg-gray-200 rounded-xl">
+            <p>Loading image...</p>
+          </div>
+        ) : (
+          <img
+            src={image ? image : "/placeholder-image-square.jpeg"}
+            className="w-[150px] h-[150px] rounded-xl"
+            style={{ filter: "saturate(0.5)" }}
+          />
+        )}
         <div className="flex flex-col justify-between">
           <h2 className="text-md">{place?.name}</h2>
           <p
