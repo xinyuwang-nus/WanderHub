@@ -14,13 +14,8 @@ function Hotel({ hotel }) {
     try {
       const data = { textQuery: hotel?.name };
       const response = await GetPlaceDetails(data);
-      const photoName = response?.data?.places?.[0]?.photos?.[0]?.name;
-      if (photoName) {
-        const photoUrl = PHOTO_REF_URL.replace("{NAME}", photoName);
-        setImage(photoUrl);
-      } else {
-        console.warn("Photo name not found in the response.");
-      }
+      const photoUrl = PHOTO_REF_URL.replace("{NAME}", response?.data?.places?.[0]?.photos?.[0]?.name);
+      setImage(photoUrl);
     } catch (error) {
       console.error("Error fetching place photo:", error);
     } finally {

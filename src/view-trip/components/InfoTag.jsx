@@ -34,28 +34,63 @@ function InfoTag({ tripData }) {
     }
   };
 
-  useEffect(() => {
-    // Fetch multiple images from the Unsplash API
-    const fetchImages = async () => {
-      try {
-        const response = await fetch(
-          `https://api.unsplash.com/search/photos?query=${
-            tripData?.selection?.destination?.label
-          }&client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}&per_page=5`
-        );
-        const data = await response.json();
-        if (data.results && data.results.length > 0) {
-          setImages(data.results.map((image) => image.urls.regular));
-        }
-        console.log("Fetched images from Unsplash:", images);
-      } catch (error) {
-        console.error("Error fetching images from Unsplash:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchImagesFromDatabase = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5038/api/trip-images/${tripData?.id}`
+      );
 
-    fetchImages();
+      if (response.ok) {
+        const data = await response.json();
+        setImages(data.images);
+        console.log("Fetched images from database:", images);
+        return true;
+      } else if (response.status === 404) {
+        console.log("No images found in database, will fetch from Unsplash and save to database"); 
+        return false;
+      }
+    } catch (error) {
+      console.error("Error fetching images from database:", error);
+      return false;
+    }
+  };
+
+  const fetchImagesFromUnsplash = async () => {
+    try {
+      const response = await fetch(
+        `https://api.unsplash.com/search/photos?query=${
+          tripData?.selection?.destination?.label
+        }&client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}&per_page=5`
+      );
+      const data = await response.json();
+      if (data.results && data.results.length > 0) {
+        const newImages = data.results.map((image) => image.urls.regular);
+        setImages(newImages);
+
+        // Save to the database
+        await fetch("http://localhost:5038/api/trip-images", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ tripId: tripData?.id, images: newImages }),
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching images from Unsplash:", error);
+    }
+  };
+
+  useEffect(() => {
+    const loadImages = async () => {
+      setLoading(true);
+      const imagesFound = await fetchImagesFromDatabase();
+      if (!imagesFound) {
+        await fetchImagesFromUnsplash();
+      }
+      setLoading(false);
+    };
+    if (tripData?.id) {
+      loadImages();
+    }
   }, [tripData]);
 
   return (
