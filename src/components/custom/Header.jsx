@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
 import {
   Popover,
   PopoverContent,
@@ -17,52 +16,37 @@ import {
 } from "@/components/ui/dialog";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FaGoogle } from "react-icons/fa";
+import { IoPersonOutline } from "react-icons/io5";
 
 function Header() {
-  const [user, setUser] = useState(null); // Store user data
-  const token = localStorage.getItem("token"); // Retrieve token from localStorage
-  console.log("token: ", token); // TODO: remove
+  // Fetch user info if exists
+  const [user, setUser] = useState(null);
+  const [googleUser, setGoogleUser] = useState(null);
+  const token = localStorage.getItem("token");
 
   // Fetch user info if token exists
   useEffect(() => {
     if (token) {
-        console.log("token exists") // TODO: remomve
-      fetchUserProfile(token);
+      setUser(JSON.parse(localStorage.getItem("user")));
     }
   }, [token]);
 
-  // Function to fetch user profile
-  const fetchUserProfile = async (authToken) => {
-    try {
-      const response = await fetch("http://localhost:5038/api/user-profile", {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("User profile: ", data);
-        setUser(data); // Update the user state
-        localStorage.setItem("user", JSON.stringify(data));
-      } else {
-        console.error("Failed to fetch user profile");
-      }
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
+  useEffect(() => {
+    if (localStorage.getItem("google-user")) {
+      setGoogleUser(JSON.parse(localStorage.getItem("google-user")));
     }
-  };
+  }, []); // will only be triggered when the component is mounted
 
   // Google login logic
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
-      console.log(codeResponse);
-      getProfile(codeResponse);
+      //   console.log(codeResponse);
+      getGoogleProfile(codeResponse);
     },
     onError: (error) => console.log(error),
   });
 
-  const getProfile = async (tokenInfo) => {
+  const getGoogleProfile = async (tokenInfo) => {
     try {
       const response = await fetch(
         `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
@@ -74,9 +58,9 @@ function Header() {
         }
       );
       const data = await response.json();
-      console.log("data: ", data);
+      setGoogleUser(data);
       localStorage.setItem("user", JSON.stringify(data));
-      setUser(data); // Update user state
+      localStorage.setItem("google-user", JSON.stringify(data)); // need to save google avatar
     } catch (error) {
       console.error(error);
     }
@@ -85,8 +69,9 @@ function Header() {
   // Logout logic
   const handleLogout = () => {
     googleLogout();
-    localStorage.removeItem("user");
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("google-user");
     setUser(null);
     window.location.reload();
   };
@@ -105,14 +90,21 @@ function Header() {
 
       {/* Right Section (User) */}
       <div className="flex-none w-1/3 flex justify-end">
-        {user ? (
+        {googleUser || user ? (
           <div>
             <Popover>
               <PopoverTrigger>
-                <img
-                  src={user?.picture || "/default-avatar.png"}
-                  className="h-[30px] w-[30px] rounded-full"
-                />
+                <div className="h-[30px] w-[30px] rounded-full bg-gray-200 flex items-center justify-center">
+                  {googleUser?.picture ? (
+                    <img
+                      src={googleUser.picture}
+                      alt="User Avatar"
+                      className="h-full w-full rounded-full"
+                    />
+                  ) : (
+                    <IoPersonOutline className="h-[20px] w-[20px] text-gray-500" />
+                  )}
+                </div>
               </PopoverTrigger>
               <PopoverContent className="flex items-center gap-2">
                 <a href="/create-trip">
@@ -128,8 +120,7 @@ function Header() {
                 <Button
                   variant="outline"
                   className="text-black"
-                  onClick={handleLogout}
-                >
+                  onClick={handleLogout}>
                   Sign Out
                 </Button>
               </PopoverContent>
@@ -148,8 +139,7 @@ function Header() {
                 <Button
                   variant="secondary"
                   onClick={login}
-                  className="w-1/2 items-center"
-                >
+                  className="w-1/2 items-center">
                   <FaGoogle />
                   Sign In with Google
                 </Button>

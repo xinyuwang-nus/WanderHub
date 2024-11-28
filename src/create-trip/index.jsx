@@ -20,8 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { useGoogleLogin } from "@react-oauth/google";
 import { AiOutlineLoading } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function CreateTrip() {
   const [destination, setDestination] = useState("");
@@ -30,6 +29,7 @@ function CreateTrip() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const API_URL = "http://localhost:5038";
 
@@ -103,13 +103,15 @@ function CreateTrip() {
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
-      console.log(codeResponse);
-      getProfile(codeResponse);
+      getGoogleProfile(codeResponse).then(() => {
+        setShowSignInWindow(false);
+        createTrip();
+      });
     },
     onError: (error) => console.log(error),
   });
 
-  const getProfile = async (tokenInfo) => {
+  const getGoogleProfile = async (tokenInfo) => {
     try {
       const response = await fetch(
         `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
@@ -121,10 +123,8 @@ function CreateTrip() {
         }
       );
       const data = await response.json();
-      console.log("data: ", data);
       localStorage.setItem("user", JSON.stringify(data));
-      setShowSignInWindow(false);
-      createTrip();
+      localStorage.setItem("google-user", JSON.stringify(data)); // need to save google avatar
     } catch (error) {
       console.error(error);
     }
@@ -280,32 +280,26 @@ function CreateTrip() {
 
       <Dialog open={showSignInWindow}>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle></DialogTitle>
-            <DialogDescription>
-              <img src="/logo.svg" />
-              <h2 className="text-2xl mt-5 text-black">Sign In</h2>
-              <p className="font-light">Sign in to get your customized trip</p>
-
-              <div className="flex justify-center gap-2">
-                <Button
-                  variant="secondary"
-                  onClick={login}
-                  className="w-1/2 items-center">
-                  <FaGoogle />
-                  Sign In with Google
-                </Button>
-
-                <Link to={"/sign-in"}>
-                  <Button
-                    variant="secondary"
-                    className="w-1/2 items-center">
-                    Sign In with WanderHub
-                  </Button>
-                </Link>
-              </div>
-            </DialogDescription>
-          </DialogHeader>
+          <img src="/logo.svg" alt="Logo" />
+          <h2 className="text-2xl text-black">Sign In</h2>
+          <p className="font-light">Sign in to get your customized trip</p>
+          <div className="flex justify-center gap-2">
+            <Button
+              variant="secondary"
+              onClick={login}
+              className="w-1/2 items-center">
+              <FaGoogle />
+              Sign In with Google
+            </Button>
+            <Link
+              to="/sign-in"
+              state={{ from: location }}
+              className="w-1/2 items-center">
+              <Button variant="secondary" className="w-full">
+                Sign In with WanderHub
+              </Button>
+            </Link>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

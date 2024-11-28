@@ -56,7 +56,7 @@ async function generateTravelPlan(destination, duration, traveler, budget, activ
       ],
     });
 
-    console.log("Response from OpenAI:", response.choices[0].message.content);
+    // console.log("Response from OpenAI:", response.choices[0].message.content);
     return JSON.parse(response.choices[0].message.content); 
   } catch (error) {
     console.error("Error generating travel plan:", error);
@@ -233,8 +233,7 @@ app.post("/api/login", async (req, res) => {
       { expiresIn: "1h" } // Token valid for 1 hour
     );
 
-    console.log("Generated Token:", token); // TODO: Add this for debugging
-
+    // console.log("Generated Token:", token); 
     res.status(200).json({ message: "Login successful.", token });
   } catch (error) {
     console.error("Error during login:", error);
@@ -335,7 +334,7 @@ app.post("/api/reset-password", async (req, res) => {
   }
 });
 
-// TODO: need test
+
 app.get("/api/user-profile", (req, res) => {
   const authHeader = req.headers.authorization;
 
@@ -344,10 +343,9 @@ app.get("/api/user-profile", (req, res) => {
   }
 
   const token = authHeader.split(" ")[1];
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "your_secret_key");
-    const user = { id: decoded.id, email: decoded.email }; // Return user info
+    const user = { id: decoded.id, email: decoded.email, name: decoded.name };
     res.json(user);
   } catch (error) {
     res.status(401).json({ error: "Invalid token" });

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
+// TODO: send email
 function ForgetPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -13,7 +15,7 @@ function ForgetPassword() {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:5038/api/forgot-password", { email });
+      const response = await axios.post("http://localhost:5038/api/forgot-password", { email }); // TODO
       setMessage(response.data.message);
     } catch (error) {
       console.error("Error resetting password:", error);
@@ -22,18 +24,16 @@ function ForgetPassword() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center h-screen">
       <form
         onSubmit={handleResetPassword}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
+        className="p-8 rounded-lg shadow-md w-full max-w-md"
       >
         <h2 className="text-2xl font-semibold mb-4 text-center">
           Forgot Password
         </h2>
-        {message && <p className="text-green-500">{message}</p>}
-        {error && <p className="text-red-500">{error}</p>}
         <div className="mb-6">
-          <label className="block text-sm font-medium mb-1">Email</label>
+          <label className="block font-medium mb-1">Email</label>
           <input
             type="email"
             placeholder="Enter your email"
@@ -41,10 +41,17 @@ function ForgetPassword() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+                  {message && <p className="text-green-500">{message}</p>}
+                  {error && <p className="text-red-500">{error}</p>}
         </div>
         <Button type="submit" variant="secondary" className="w-full">
           Reset Password
         </Button>
+        <div className="text-center mt-4">
+          <Link to="/sign-in" className="text-black font-normal">
+            Remember your password? Sign In
+          </Link>
+        </div>
       </form>
     </div>
   );

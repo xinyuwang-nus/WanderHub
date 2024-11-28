@@ -1,5 +1,5 @@
 import "./App.css";
-import Header from "./components/custom/Header(old).jsx";
+import Header from "./components/custom/Header.jsx";
 import Footer from "./components/custom/Footer.jsx";
 import Landing from "./components/custom/Landing.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -7,9 +7,9 @@ import CreateTrip from "./create-trip/index.jsx";
 import ViewTrip from "./view-trip/[tripId]/index.jsx";
 import UserTrip from "./user-trip/index.jsx";
 import { Toaster } from "sonner";
-import SignIn from './components/login/SignIn.jsx'; // Import SignIn
-import Register from './components/login/Register.jsx'; // Import Register
-import ForgetPassword from './components/login/ForgetPassword.jsx'; // Import ForgetPassword
+import SignIn from './components/login/SignIn.jsx'; 
+import Register from './components/login/Register.jsx'; 
+import ForgetPassword from './components/login/ForgetPassword.jsx'; 
 
 const router = createBrowserRouter(
   [
