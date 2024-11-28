@@ -335,6 +335,7 @@ app.post("/api/reset-password", async (req, res) => {
   }
 });
 
+// TODO: need test
 app.get("/api/user-profile", (req, res) => {
   const authHeader = req.headers.authorization;
 
