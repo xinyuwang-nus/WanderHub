@@ -7,7 +7,7 @@ import {
   SelectTravelerOptions,
   // SelectAccommodationOptions,
   SelectActivityOptions,
-} from "../constants/options";
+} from "./options";
 import { Button } from "../components/ui/button";
 import { toast } from "sonner";
 import { FaGoogle } from "react-icons/fa";
@@ -28,7 +28,7 @@ function CreateTrip() {
   const [showSignInWindow, setShowSignInWindow] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const navigate= useNavigate();
+  const navigate = useNavigate();
 
   const API_URL = "http://localhost:5038";
 
@@ -77,7 +77,7 @@ function CreateTrip() {
       budget: formData?.budget,
       activities: formData?.activities,
     };
-    
+
     try {
       const response = await fetch(API_URL + "/api/create-trip", {
         method: "POST",
@@ -86,18 +86,18 @@ function CreateTrip() {
         },
         body: JSON.stringify(requestBody),
       });
-    
+
       if (!response.ok) {
         throw new Error(`Failed to fetch travel plan: ${response.statusText}`);
       }
-    
+
       const result = await response.json();
       console.log("Generated trip: ", result);
-    
-      saveTrip(result); 
+
+      saveTrip(result);
     } catch (error) {
       console.error("Error generating trip:", error);
-    }    
+    }
   };
 
   const login = useGoogleLogin({
@@ -171,28 +171,30 @@ function CreateTrip() {
       </p>
 
       <div className="mt-20 flex flex-col gap-5">
-        <div>
-          <h2 className="text-xl my-3">Destination</h2>
-          <GooglePlacesAutocomplete
-            apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY}
-            selectProps={{
-              destination,
-              onChange: (value) => {
-                setDestination(value);
-                handleInputChange("destination", value);
-                console.log("fetched from google places api: ", value);
-              },
-              placeholder: "Search",
-            }}
-          />
-        </div>
-        <div>
-          <h2 className="text-xl my-3">Duration</h2>
-          <Input
-            placeholder="Days (> 0 and <= 7 days)"
-            type="number"
-            onChange={(e) => handleInputChange("duration", e.target.value)}
-          />
+        <div className="flex flex-wrap gap-5">
+          <div className="flex-1 min-w-[250px]">
+            <h2 className="text-xl my-3">Destination</h2>
+            <GooglePlacesAutocomplete
+              apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY}
+              selectProps={{
+                destination,
+                onChange: (value) => {
+                  setDestination(value);
+                  handleInputChange("destination", value);
+                  console.log("fetched from google places api: ", value);
+                },
+                placeholder: "Search",
+              }}
+            />
+          </div>
+          <div className="flex-1 min-w-[250px]">
+            <h2 className="text-xl my-3">Duration</h2>
+            <Input
+              placeholder="Days (> 0 and <= 7 days)"
+              type="number"
+              onChange={(e) => handleInputChange("duration", e.target.value)}
+            />
+          </div>
         </div>
 
         <div>
@@ -262,8 +264,15 @@ function CreateTrip() {
         </div>
 
         <div className="my-10 flex justify-center">
-          <Button onClick={createTrip} disabled={loading} className="text-lg w-1/2">
-            {loading ? <AiOutlineLoading className='animate-spin'/> : "Create Your Trip"} 
+          <Button
+            onClick={createTrip}
+            disabled={loading}
+            className="text-lg w-1/2">
+            {loading ? (
+              <AiOutlineLoading className="animate-spin" />
+            ) : (
+              "Create Your Trip"
+            )}
           </Button>
         </div>
       </div>

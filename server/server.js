@@ -39,7 +39,6 @@ MongoClient.connect(CONNECTION_STRING)
 
 
 const openai = new OpenAI(process.env.OPENAI_API_KEY);
-
 async function generateTravelPlan(destination, duration, traveler, budget, activities) {
   const prompt = `
   Generate Travel Plan for Destination: ${destination}, for ${duration} days for ${traveler}, with hotel budget of ${budget}, with activity preference in ${activities}. 
@@ -88,6 +87,7 @@ app.post("/api/trips", async (req, res) => {
   }
 });
 
+// TODO: diff between params and query
 app.get("/api/trips/:tripId", async (req, res) => {
   const { tripId } = req.params; // Extract tripId from URL parameters
   try {

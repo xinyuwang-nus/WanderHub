@@ -22,8 +22,6 @@ import { FaGoogle } from "react-icons/fa";
 function Header() {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // const [showSignInWindow, setShowSignInWindow] = useState(false);
-
   // useEffect(() => {
   //   console.log(user);
   // }, []);
@@ -36,7 +34,6 @@ function Header() {
     onError: (error) => console.log(error),
   });
 
-  // TODO: factor out login function
   const getProfile = async (tokenInfo) => {
     try {
       const response = await fetch(
@@ -51,7 +48,6 @@ function Header() {
       const data = await response.json();
       console.log("data: ", data);
       localStorage.setItem("user", JSON.stringify(data));
-      // setShowSignInWindow(false);
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -124,8 +120,6 @@ function Header() {
               </div>
             </DialogContent>
           </Dialog>
-
-          // <Button onClick={()=>setShowSignInWindow(true)} variant="secondary">Sign In</Button>
         )}
       </div>
     </div>

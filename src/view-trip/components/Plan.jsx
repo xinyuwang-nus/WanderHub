@@ -3,6 +3,7 @@ import PlanItem from "./PlanItem";
 
 function Plan({ tripData }) {
   
+  // TODO: add overall map
   return (
     <div>
       <h2 className="text-2xl mt-5 font-medium">Daily Plan</h2>
@@ -15,7 +16,7 @@ function Plan({ tripData }) {
             <div className="grid md:grid-cols-2 gap-5 auto-rows-fr">
               {plan.locations.map((place, index) => (
                 <div key={index} className="my-1">
-                  <PlanItem key={index} place={place} />
+                  <PlanItem key={index} destination={tripData?.selection?.destination?.label} place={place} />
                 </div>
               ))}
             </div>

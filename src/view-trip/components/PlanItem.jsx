@@ -5,7 +5,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { CiPlay1 } from "react-icons/ci";
 import { GetPlaceDetails, PHOTO_REF_URL } from "@/service/GooglePhoto";
 
-function PlanItem({ place }) {
+function PlanItem({ destination, place }) {
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -27,6 +27,18 @@ function PlanItem({ place }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const openGoogleMaps = () => {
+    const searchQuery = encodeURIComponent(destination + ": " + place?.name || place?.address);
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${searchQuery}`;
+    window.open(googleMapsUrl, "_blank");
+  };
+
+  const openYouTubeSearch = () => {
+    const searchQuery = encodeURIComponent(destination + ": " + place?.name);
+    const youtubeUrl = `https://www.youtube.com/results?search_query=${searchQuery}`;
+    window.open(youtubeUrl, "_blank");
   };
 
   return (
@@ -62,10 +74,12 @@ function PlanItem({ place }) {
           </p>
 
           <div className="flex gap-2 mt-1">
-            <Button size="sm" variant="ghost">
+            {/* Google Maps */}
+            <Button size="sm" variant="ghost" onClick={openGoogleMaps}>
               <CiLocationOn />
             </Button>
-            <Button size="sm" variant="ghost">
+            {/* YouTube Videos */}
+            <Button size="sm" variant="ghost" onClick={openYouTubeSearch}>
               <CiPlay1 />
             </Button>
           </div>

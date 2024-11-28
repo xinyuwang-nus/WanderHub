@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import { Link } from 'react-router-dom';
 
+// TODO: add animation
 function Landing() {
   return (
     <div className="flex items-center justify-center h-screen text-center font-afacad">
