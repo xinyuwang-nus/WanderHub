@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button } from "../ui/button";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Popover,
@@ -15,45 +16,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
 import { useGoogleLogin } from "@react-oauth/google";
 import { FaGoogle } from "react-icons/fa";
 
 function Header() {
-  const [user, setUser] = useState(null); // Store user data
-  const token = localStorage.getItem("token"); // Retrieve token from localStorage
-  console.log("token: ", token); // TODO: remove
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  // Fetch user info if token exists
-  useEffect(() => {
-    if (token) {
-        console.log("token exists") // TODO: remomve
-      fetchUserProfile(token);
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   console.log(user);
+  // }, []);
 
-  // Function to fetch user profile
-  const fetchUserProfile = async (authToken) => {
-    try {
-      const response = await fetch("http://localhost:5038/api/user-profile", {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("User profile: ", data);
-        setUser(data); // Update the user state
-        localStorage.setItem("user", JSON.stringify(data));
-      } else {
-        console.error("Failed to fetch user profile");
-      }
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-    }
-  };
-
-  // Google login logic
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       console.log(codeResponse);
@@ -76,19 +49,10 @@ function Header() {
       const data = await response.json();
       console.log("data: ", data);
       localStorage.setItem("user", JSON.stringify(data));
-      setUser(data); // Update user state
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
-  };
-
-  // Logout logic
-  const handleLogout = () => {
-    googleLogout();
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    setUser(null);
-    window.location.reload();
   };
 
   return (
@@ -110,7 +74,7 @@ function Header() {
             <Popover>
               <PopoverTrigger>
                 <img
-                  src={user?.picture || "/default-avatar.png"}
+                  src={user?.picture}
                   className="h-[30px] w-[30px] rounded-full"
                 />
               </PopoverTrigger>
@@ -128,8 +92,11 @@ function Header() {
                 <Button
                   variant="outline"
                   className="text-black"
-                  onClick={handleLogout}
-                >
+                  onClick={() => {
+                    googleLogout();
+                    localStorage.removeItem("user");
+                    window.location.reload();
+                  }}>
                   Sign Out
                 </Button>
               </PopoverContent>
@@ -148,15 +115,12 @@ function Header() {
                 <Button
                   variant="secondary"
                   onClick={login}
-                  className="w-1/2 items-center"
-                >
+                  className="w-1/2 items-center">
                   <FaGoogle />
                   Sign In with Google
                 </Button>
                 <a href="/sign-in" className="w-1/2 items-center">
-                  <Button variant="secondary" className="w-full">
-                    Sign In with WanderHub
-                  </Button>
+                  <Button variant="secondary" className='w-full'>Sign In with WanderHub</Button>
                 </a>
               </div>
             </DialogContent>

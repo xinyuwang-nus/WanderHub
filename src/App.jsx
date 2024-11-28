@@ -1,5 +1,5 @@
 import "./App.css";
-import Header from "./components/custom/Header.jsx";
+import Header from "./components/custom/Header(old).jsx";
 import Footer from "./components/custom/Footer.jsx";
 import Landing from "./components/custom/Landing.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -30,18 +30,17 @@ const router = createBrowserRouter(
       element: <UserTrip />,
     },
     {
-      path: "/sign-in", // Route for SignIn
+      path: "/sign-in",
       element: <SignIn />,
     },
     {
-      path: "/register", // Route for Register
+      path: "/register",
       element: <Register />,
     },
     {
-      path: "/forget-password", // Route for ForgetPassword
+      path: "/forget-password",
       element: <ForgetPassword />,
     },
-    
   ],
   {
     future: {
