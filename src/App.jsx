@@ -7,6 +7,9 @@ import CreateTrip from "./create-trip/index.jsx";
 import ViewTrip from "./view-trip/[tripId]/index.jsx";
 import UserTrip from "./user-trip/index.jsx";
 import { Toaster } from "sonner";
+import SignIn from './components/login/SignIn.jsx'; // Import SignIn
+import Register from './components/login/Register.jsx'; // Import Register
+import ForgetPassword from './components/login/ForgetPassword.jsx'; // Import ForgetPassword
 
 const router = createBrowserRouter(
   [
@@ -26,6 +29,19 @@ const router = createBrowserRouter(
       path: "/user-trip",
       element: <UserTrip />,
     },
+    {
+      path: "/sign-in", // Route for SignIn
+      element: <SignIn />,
+    },
+    {
+      path: "/register", // Route for Register
+      element: <Register />,
+    },
+    {
+      path: "/forget-password", // Route for ForgetPassword
+      element: <ForgetPassword />,
+    },
+    
   ],
   {
     future: {
