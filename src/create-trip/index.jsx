@@ -21,6 +21,7 @@ import {
 import { useGoogleLogin } from "@react-oauth/google";
 import { AiOutlineLoading } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function CreateTrip() {
   const [destination, setDestination] = useState("");
@@ -286,14 +287,22 @@ function CreateTrip() {
               <h2 className="text-2xl mt-5 text-black">Sign In</h2>
               <p className="font-light">Sign in to get your customized trip</p>
 
-              <div className="mt-5 flex justify-center">
+              <div className="flex justify-center gap-2">
                 <Button
                   variant="secondary"
                   onClick={login}
                   className="w-1/2 items-center">
                   <FaGoogle />
-                  Sign In With Google
+                  Sign In with Google
                 </Button>
+
+                <Link to={"/sign-in"}>
+                  <Button
+                    variant="secondary"
+                    className="w-1/2 items-center">
+                    Sign In with WanderHub
+                  </Button>
+                </Link>
               </div>
             </DialogDescription>
           </DialogHeader>

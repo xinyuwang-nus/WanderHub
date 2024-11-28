@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import OpenAI from "openai";
 import { EXAMPLE_JSON } from "./prompt.js";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 dotenv.config({ path: ".env.local" });
 
@@ -200,70 +201,47 @@ app.post("/api/register", async (req, res) => {
   }
 });
 
-// User Login Endpoint
+// Endpoint for user login
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required" });
+    return res.status(400).json({ error: "Email and password are required." });
   }
 
   try {
-    const usersCollection = database.collection("users");
+    const collection = database.collection("users");
 
     // Find the user by email
-    const user = await usersCollection.findOne({ email });
+    const user = await collection.findOne({ email });
+
     if (!user) {
-      return res.status(400).json({ error: "Invalid email or password" });
+      return res.status(404).json({ error: "User not found." });
     }
 
-    // Compare the provided password with the stored hashed password
+    // Compare the entered password with the hashed password in the database
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
     if (!isPasswordValid) {
-      return res.status(400).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: "Invalid email or password." });
     }
 
-    // Return user data (excluding the password)
-    res.status(200).json({
-      message: "Login successful",
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-      },
-    });
+    // Generate a JWT token for the user
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET || "your_secret_key",
+      { expiresIn: "1h" } // Token valid for 1 hour
+    );
+
+    console.log("Generated Token:", token); // TODO: Add this for debugging
+
+    res.status(200).json({ message: "Login successful.", token });
   } catch (error) {
-    console.error("Error logging in user:", error);
-    res.status(500).json({ error: "Failed to log in user" });
+    console.error("Error during login:", error);
+    res.status(500).json({ error: "Failed to process request." });
   }
 });
 
-// Retrieve User Data Endpoint
-app.get("/api/users/:userId", async (req, res) => {
-  const { userId } = req.params;
-
-  try {
-    const usersCollection = database.collection("users");
-
-    // Find the user by ID
-    const user = await usersCollection.findOne({ _id: new MongoClient.ObjectId(userId) });
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    // Return user data (excluding the password)
-    res.status(200).json({
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-      },
-    });
-  } catch (error) {
-    console.error("Error retrieving user data:", error);
-    res.status(500).json({ error: "Failed to retrieve user data" });
-  }
-});
 // Endpoint to initiate password reset
 app.post("/api/forgot-password", async (req, res) => {
   const { email } = req.body;
@@ -357,41 +335,20 @@ app.post("/api/reset-password", async (req, res) => {
   }
 });
 
-// Endpoint for user login
-app.post("/api/login", async (req, res) => {
-  const { email, password } = req.body;
+app.get("/api/user-profile", (req, res) => {
+  const authHeader = req.headers.authorization;
 
-  if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required." });
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Unauthorized" });
   }
 
+  const token = authHeader.split(" ")[1];
+
   try {
-    const collection = database.collection("users");
-
-    // Find the user by email
-    const user = await collection.findOne({ email });
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found." });
-    }
-
-    // Compare the entered password with the hashed password in the database
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid email or password." });
-    }
-
-    // Generate a JWT token for the user
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      process.env.JWT_SECRET || "your_secret_key",
-      { expiresIn: "1h" } // Token valid for 1 hour
-    );
-
-    res.status(200).json({ message: "Login successful.", token });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "your_secret_key");
+    const user = { id: decoded.id, email: decoded.email }; // Return user info
+    res.json(user);
   } catch (error) {
-    console.error("Error during login:", error);
-    res.status(500).json({ error: "Failed to process request." });
+    res.status(401).json({ error: "Invalid token" });
   }
 });

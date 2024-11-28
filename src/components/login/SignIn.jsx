@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -23,7 +25,8 @@ function SignIn() {
       // Store the token in localStorage
       localStorage.setItem("token", response.data.token);
       setMessage("Login successful!");
-      window.location.href = "/user-trip"; // Redirect to user trip page after login
+
+      navigate("/");
     } catch (error) {
       console.error("Error during sign-in:", error);
       setError(error.response?.data?.error || "Failed to sign in.");
