@@ -1219,7 +1219,7 @@ Ensure you have the following installed:
    ```bash
    http://localhost:5173
    ```
-### Running the Frontend
+### Running the Backend
 
 
 1. Start the backend server:
