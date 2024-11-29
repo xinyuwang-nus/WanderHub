@@ -2,8 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyA-Lv6-6KPjSoUXuFoX1WBD4KjT2pbEvJo";
-
 function Landing() {
   const mapRef = useRef(null);
 
@@ -14,7 +12,7 @@ function Landing() {
         initializeMap();
       } else {
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_PLACE_API_KEY}`; 
         script.async = true;
         script.defer = true;
         script.onload = initializeMap;

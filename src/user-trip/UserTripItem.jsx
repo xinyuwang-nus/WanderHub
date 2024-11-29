@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { AiOutlineDelete } from "react-icons/ai";
 
 import {
   AlertDialog,
@@ -62,11 +63,11 @@ function UserTripItem({ tripData, onDelete }) {
 
         <AlertDialog>
           <AlertDialogTrigger>
-          Delete
+          <AiOutlineDelete />
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Are you sure to delete?</AlertDialogTitle>
               <AlertDialogDescription>
                 This action cannot be undone. This will permanently delete the trip.
               </AlertDialogDescription>

@@ -3,7 +3,6 @@ import { Button } from "../ui/button";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-// TODO: send email
 function ForgetPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");

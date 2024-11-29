@@ -102,9 +102,6 @@ function SignIn() {
           <Link to="/register" className="text-black font-normal">
             Register
           </Link>
-          <Link to="/forget-password" className="text-black font-normal">
-            Forgot Password?
-          </Link>
         </div>
       </form>
     </div>

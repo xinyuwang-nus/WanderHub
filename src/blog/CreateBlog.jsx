@@ -3,6 +3,8 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { Link, useNavigate } from "react-router-dom";
+import { FiChevronRight } from "react-icons/fi";
 
 const mapStyles = [
   { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
@@ -32,15 +34,17 @@ function CreateBlog() {
     title: "",
     content: "",
     author: "",
+    email: "",
     location: "",
     mood: "",
     latitude: 0,
     longitude: 0,
-    likes: 0,
   });
   const [successMessage, setSuccessMessage] = useState("");
   const mapRef = useRef(null);
   const [marker, setMarker] = useState(null);
+  const navigate = useNavigate();
+
   const displayRecentBlogs = 6;
 
   const moods = [
@@ -52,9 +56,27 @@ function CreateBlog() {
   ];
 
   useEffect(() => {
+    getUser();
     fetchBlogs(); // Fetch blogs when the component mounts
     loadGoogleMapsAPI();
   }, []);
+
+  const getUser = async () => {
+    const user = localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null;
+
+    if (!user || !user.email) {
+      navigate("/"); // Redirect if invalid or not logged in
+      return;
+    }
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      author: user.name || "Anonymous",
+      email: user.email,
+    }));
+  };
 
   const fetchBlogs = async () => {
     try {
@@ -229,14 +251,7 @@ function CreateBlog() {
 
         <div>
           <h2 className="text-xl my-3">Author</h2>
-          <Input
-            placeholder="Your name"
-            type="text"
-            value={form.author}
-            onChange={(e) => handleChange(e)}
-            name="author"
-            required
-          />
+          <p className="font-light">{form.author || ""}</p>
         </div>
 
         <div>
@@ -292,7 +307,7 @@ function CreateBlog() {
 
       {/* Display Blogs */}
       <div className="mt-20">
-        <h2 className="text-3xl font-medium mb-6">Recent Blogs</h2>
+        <h2 className="text-3xl font-medium mb-6">Latest Blogs</h2>
         {blogs.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogs.slice(-displayRecentBlogs).map((blog, index) => (
@@ -316,7 +331,18 @@ function CreateBlog() {
             No blogs submitted yet. Be the first to share your story!
           </p>
         )}
+
+<div className="mt-8 flex justify-center">
+    <Link
+      to="/view-blogs"
+      className="flex items-center px-6 py-3 text-black bg-white rounded-md text-lg">
+      View All Blogs
+      <FiChevronRight className="ml-2" />
+    </Link>
+  </div>
       </div>
+
+
     </div>
   );
 }
