@@ -10,12 +10,22 @@ import { Toaster } from "sonner";
 import SignIn from './components/login/SignIn.jsx'; 
 import Register from './components/login/Register.jsx'; 
 import ForgetPassword from './components/login/ForgetPassword.jsx'; 
+import Blog from "./blog/Blog"; // Import the Blog component
+import RecentBlogs from "./blog/recentBlogs"; // Import the RecentBlogs component
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
       element: <Landing />,
+    },
+    {
+      path: "/blog",
+      element: <Blog />,
+    },
+    {
+      path: "/recentblog",
+      element: <RecentBlogs />,
     },
     {
       path: "/create-trip",
