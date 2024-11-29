@@ -10,22 +10,14 @@ import { Toaster } from "sonner";
 import SignIn from './components/login/SignIn.jsx'; 
 import Register from './components/login/Register.jsx'; 
 import ForgetPassword from './components/login/ForgetPassword.jsx'; 
-import Blog from "./blog/Blog"; // Import the Blog component
-import RecentBlogs from "./blog/recentBlogs"; // Import the RecentBlogs component
+import CreateBlog from "./blog/CreateBlog.jsx";
+import ViewBlogs from "./blog/ViewBlogs.jsx"; 
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
       element: <Landing />,
-    },
-    {
-      path: "/blog",
-      element: <Blog />,
-    },
-    {
-      path: "/recentblog",
-      element: <RecentBlogs />,
     },
     {
       path: "/create-trip",
@@ -50,6 +42,14 @@ const router = createBrowserRouter(
     {
       path: "/forget-password",
       element: <ForgetPassword />,
+    },
+    {
+      path: "/create-blog",
+      element: <CreateBlog />,
+    },
+    {
+      path: "/view-blogs",
+      element: <ViewBlogs />,
     },
   ],
   {
