@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { googleLogout } from "@react-oauth/google";
 import {
   Dialog,
@@ -149,7 +144,7 @@ function Header() {
             <DialogContent>
               <img src="/logo.svg" alt="Logo" />
               <h2 className="text-2xl text-black">Sign In</h2>
-              <p className="font-light">Sign in to get your customized trip</p>
+              <p className="font-light">Sign in to get your customized trip and share blog</p>
               <div className="flex justify-center gap-2">
                 <Button
                   variant="secondary"

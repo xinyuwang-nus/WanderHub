@@ -7,9 +7,9 @@ import CreateTrip from "./create-trip/index.jsx";
 import ViewTrip from "./view-trip/[tripId]/index.jsx";
 import UserTrip from "./user-trip/index.jsx";
 import { Toaster } from "sonner";
-import SignIn from './components/login/SignIn.jsx'; 
-import Register from './components/login/Register.jsx'; 
-import ForgetPassword from './components/login/ForgetPassword.jsx'; 
+import SignIn from './login/SignIn.jsx'; 
+import Register from './login/Register.jsx'; 
+import ForgetPassword from './login/ForgetPassword.jsx'; 
 import CreateBlog from "./blog/CreateBlog.jsx";
 import ViewBlogs from "./blog/ViewBlogs.jsx"; 
 
