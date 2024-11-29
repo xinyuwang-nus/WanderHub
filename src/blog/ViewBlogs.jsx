@@ -14,6 +14,7 @@ import { CiShare2 } from "react-icons/ci";
 import { Button } from "@/components/ui/button";
 import { IoAdd } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../../BASE_URL";
 
 import {
   AlertDialog,
@@ -124,7 +125,7 @@ function ViewBlogs() {
 
   const fetchBlogs = async () => {
     try {
-      const response = await fetch("http://localhost:5038/api/blogs");
+      const response = await fetch(`${API_BASE_URL}/blogs`);
       if (response.ok) {
         const data = await response.json();
         setBlogs(data);
@@ -140,7 +141,7 @@ function ViewBlogs() {
   const deleteBlog = async (blogId) => {
     try {
       const response = await fetch(
-        `http://localhost:5038/api/blogs/${blogId}?email=${user.email}`,
+        `${API_BASE_URL}/blogs/${blogId}?email=${user.email}`,
         { method: "DELETE" }
       );
 
@@ -187,7 +188,7 @@ function ViewBlogs() {
 
   const handleLike = async (blog) => {
     try {
-      const response = await fetch(`http://localhost:5038/api/blogs/like`, {
+      const response = await fetch(`${API_BASE_URL}/blogs/like`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ _id: blog._id }),
@@ -210,7 +211,7 @@ function ViewBlogs() {
 
   const handleShare = async (blog) => {
     try {
-      const response = await fetch(`http://localhost:5038/api/blogs/share`, {
+      const response = await fetch(`${API_BASE_URL}/blogs/share`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ _id: blog._id }),

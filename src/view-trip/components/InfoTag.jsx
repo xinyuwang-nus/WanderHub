@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
 import { CiShare2 } from "react-icons/ci";
+import { API_BASE_URL } from "../../../BASE_URL";
 
 function InfoTag({ tripData }) {
   const [images, setImages] = useState([]);
@@ -37,7 +38,7 @@ function InfoTag({ tripData }) {
   const fetchImagesFromDatabase = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5038/api/trip-images/${tripData?.id}`
+        `${API_BASE_URL}/trip-images/${tripData?.id}`
       );
 
       if (response.ok) {
@@ -68,7 +69,7 @@ function InfoTag({ tripData }) {
         setImages(newImages);
 
         // Save to the database
-        await fetch("http://localhost:5038/api/trip-images", {
+        await fetch(`${API_BASE_URL}/trip-images`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ tripId: tripData?.id, images: newImages }),

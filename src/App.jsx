@@ -10,8 +10,8 @@ import { Toaster } from "sonner";
 import SignIn from './login/SignIn.jsx'; 
 import Register from './login/Register.jsx'; 
 import ForgetPassword from './login/ForgetPassword.jsx'; 
-import CreateBlog from "./blog/CreateBlog.jsx";
 import ViewBlogs from "./blog/ViewBlogs.jsx"; 
+import CreateBlog from "./blog/CreateBlog.jsx";
 
 const router = createBrowserRouter(
   [

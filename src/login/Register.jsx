@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Input } from "@/components/ui/input";
+import { API_BASE_URL } from "../../BASE_URL";
 
 function Register() {
   const [name, setName] = useState("");
@@ -21,7 +22,7 @@ function Register() {
     }
 
     try {
-      const response = await fetch("http://localhost:5038/api/register", {
+      const response = await fetch(`${API_BASE_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
+import { API_BASE_URL } from "../../BASE_URL";
 
 const mapStyles = [
   { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
@@ -80,7 +81,7 @@ function CreateBlog() {
 
   const fetchBlogs = async () => {
     try {
-      const response = await fetch("http://localhost:5038/api/blogs");
+      const response = await fetch(`${API_BASE_URL}/blogs`);
       if (response.ok) {
         const data = await response.json();
         setBlogs(data);
@@ -193,7 +194,7 @@ function CreateBlog() {
     };
 
     try {
-      const response = await fetch("http://localhost:5038/api/blogs", {
+      const response = await fetch(`${API_BASE_URL}/blogs`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

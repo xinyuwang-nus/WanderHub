@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectToDatabase } from "./mongodb.js";
 // import apiRoutes from "./api.js";
-import apiRoutes from "./routes.js";
+import apiRoutes from "../server/routes.js";
 
 dotenv.config({ path: ".env.local" });
 

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import { API_BASE_URL } from "../../BASE_URL";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ function SignIn() {
     setError("");
   
     try {
-      const response = await axios.post("http://localhost:5038/api/login", {
+      const response = await axios.post(`${API_BASE_URL}/login`, {
         email,
         password,
       });
@@ -46,7 +47,7 @@ function SignIn() {
   // Function to fetch user profile
   const fetchUserProfile = async (authToken) => {
     try {
-      const response = await fetch("http://localhost:5038/api/user-profile", {
+      const response = await fetch(`${API_BASE_URL}/user-profile`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },

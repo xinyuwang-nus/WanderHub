@@ -14,6 +14,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
+import { API_BASE_URL } from "../../BASE_URL";
+
 function UserTripItem({ tripData, onDelete }) {
   const [image, setImage] = useState("/placeholder-image.jpeg");
 
@@ -21,7 +23,7 @@ function UserTripItem({ tripData, onDelete }) {
     const fetchImageFromDatabase = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5038/api/trip-images/${tripData?.id}`
+          `${API_BASE_URL}/trip-images/${tripData?.id}`
         );
         if (response.ok) {
           const data = await response.json();

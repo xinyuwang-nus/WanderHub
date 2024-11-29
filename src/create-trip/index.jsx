@@ -21,6 +21,7 @@ import {
 import { useGoogleLogin } from "@react-oauth/google";
 import { AiOutlineLoading } from "react-icons/ai";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { API_BASE_URL } from "../../BASE_URL";
 
 function CreateTrip() {
   const [destination, setDestination] = useState("");
@@ -30,8 +31,6 @@ function CreateTrip() {
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  const API_URL = "http://localhost:5038";
 
   const handleInputChange = (key, value) => {
     setFormData({
@@ -80,7 +79,7 @@ function CreateTrip() {
     };
 
     try {
-      const response = await fetch(API_URL + "/api/create-trip", {
+      const response = await fetch(`${API_BASE_URL}/create-trip`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -143,7 +142,7 @@ function CreateTrip() {
     };
 
     try {
-      const response = await fetch(API_URL + "/api/trips", {
+      const response = await fetch(`${API_BASE_URL}/trips`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

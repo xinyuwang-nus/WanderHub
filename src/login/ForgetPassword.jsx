@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "../components/ui/button";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../../BASE_URL";
 
 function ForgetPassword() {
   const [email, setEmail] = useState("");
@@ -14,7 +15,7 @@ function ForgetPassword() {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:5038/api/forgot-password", { email });
+      const response = await axios.post(`${API_BASE_URL}/forgot-password`, { email });
       setMessage(response.data.message);
     } catch (error) {
       console.error("Error resetting password:", error);

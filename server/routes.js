@@ -280,7 +280,8 @@ export default function apiRoutes(database) {
       res.status(500).json({ error: "Failed to fetch blogs" });
     }
   });
-  
+ 
+
   
   
   router.delete("/blogs/:blogId", async (req, res) => {

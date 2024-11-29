@@ -4,6 +4,7 @@ import Accommodation from "../components/Accommodation";
 import InfoTag from "../components/InfoTag";
 import Plan from "../components/Plan";
 import { useParams } from "react-router-dom";
+import { API_BASE_URL } from "../../../BASE_URL";
 
 function ViewTrip() {
   const { tripId } = useParams(); // Get tripId from the URL
@@ -17,7 +18,7 @@ function ViewTrip() {
   const fetchTripData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5038/api/trips/${tripId}`
+        `${API_BASE_URL}/trips/${tripId}`
       );
       if (!response.ok) throw new Error("Failed to fetch trip data");
       const data = await response.json();

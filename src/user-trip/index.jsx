@@ -1,6 +1,7 @@
 import UserTripItem from "./UserTripItem";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../BASE_URL";
 
 function UserTrip() {
 
@@ -29,7 +30,7 @@ function UserTrip() {
   
     try {
       const response = await fetch(
-        `http://localhost:5038/api/user-trips?email=${user.email}`
+        `${API_BASE_URL}/user-trips?email=${user.email}`
       );
   
       if (!response.ok) {
@@ -48,7 +49,7 @@ function UserTrip() {
   const deleteTrip = async (tripId) => {
     try {
       const response = await fetch(
-        `http://localhost:5038/api/user-trips/${tripId}?email=${user.email}`,
+        `${API_BASE_URL}/user-trips/${tripId}?email=${user.email}`,
         { method: "DELETE" }
       );
   
