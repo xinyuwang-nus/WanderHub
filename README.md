@@ -1,9 +1,4 @@
 
-# **Declaration**
-
-We, **Group 15**, hereby declare that all code and implementation presented in this project have been independently developed and written by ourselves, without copying or referencing any other repositories, third-party projects, or pre-existing codebases. The work has been completed entirely by the undersigned team members and represents our original efforts.
-
-Date: *[2024.11.30]*
 
 ---
 
@@ -1200,3 +1195,10 @@ Ensure you have the following installed:
    ```bash
    http://localhost:5038
    ```
+
+# **Declaration**
+
+We, Group 15, hereby declare that all  implementations presented in this project have been independently developed and written by ourselves. The work has been completed entirely by the team members and represents our original efforts.
+
+Date: *[2024.11.30]*
+
