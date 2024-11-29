@@ -1,13 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-function UserTripItem({ tripData }) {
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+function UserTripItem({ tripData, onDelete }) {
   const [image, setImage] = useState("/placeholder-image.jpeg");
 
   useEffect(() => {
     const fetchImageFromDatabase = async () => {
       try {
-        const response = await fetch(`http://localhost:5038/api/trip-images/${tripData?.id}`);
+        const response = await fetch(
+          `http://localhost:5038/api/trip-images/${tripData?.id}`
+        );
         if (response.ok) {
           const data = await response.json();
           if (data.images && data.images.length > 0) {
@@ -25,16 +39,18 @@ function UserTripItem({ tripData }) {
   }, [tripData]);
 
   return (
-    <Link to={`/view-trip/${tripData?.id}`}>
-      <div className="hover:scale-105 transition-all">
+    <div className="hover:scale-105 transition-all rounded-lg overflow-hidden border">
+      <Link to={`/view-trip/${tripData?.id}`}>
         <img
           src={image}
-          className="rounded-xl h-[180px] w-full object-cover"
+          className="h-[200px] w-full object-cover"
           style={{ filter: "saturate(0.5)" }}
         />
-
+      </Link>
+  
+      <div className="p-4 flex items-center justify-between">
         <div>
-          <h2 className="text-lg text-black mt-2">
+          <h2 className="text-lg text-black">
             {tripData?.selection?.destination?.label}
           </h2>
           <h2 className="text-sm font-light text-gray-500">
@@ -42,10 +58,34 @@ function UserTripItem({ tripData }) {
             {tripData?.selection?.activities}
           </h2>
         </div>
+  
+
+        <AlertDialog>
+          <AlertDialogTrigger>
+          Delete
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete the trip.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>
+                  Cancel
+              </AlertDialogCancel> 
+              <AlertDialogAction onClick={() => onDelete(tripData.id)}>
+                  Confirm
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
-    </Link>
+    </div>
   );
+  
+  
 }
 
 export default UserTripItem;
-

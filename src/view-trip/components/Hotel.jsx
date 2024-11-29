@@ -1,14 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { GetPlaceDetails, PHOTO_REF_URL } from "@/service/GooglePhoto";
+import { Button } from "../../components/ui/button";
+import { CiLocationOn } from "react-icons/ci";
+import { CiPlay1 } from "react-icons/ci";
 
-function Hotel({ hotel }) {
+function Hotel({ destination, hotel }) {
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getPhoto();
-  }, [hotel]);
+  }, []);
 
   const getPhoto = async () => {
     try {
@@ -21,6 +24,18 @@ function Hotel({ hotel }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const openGoogleMaps = () => {
+    const searchQuery = encodeURIComponent(destination + ": " + hotel?.name || hotel?.address);
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${searchQuery}`;
+    window.open(googleMapsUrl, "_blank");
+  };
+
+  const openYouTubeSearch = () => {
+    const searchQuery = encodeURIComponent(destination + ": " + hotel?.name);
+    const youtubeUrl = `https://www.youtube.com/results?search_query=${searchQuery}`;
+    window.open(youtubeUrl, "_blank");
   };
 
   return (
@@ -43,6 +58,16 @@ function Hotel({ hotel }) {
         <p className="text-xs font-light text-gray-500">
           {hotel?.priceRange?.min} - {hotel?.priceRange?.max} USD
         </p>
+        <div className="flex gap-2 mt-2">
+            {/* Google Maps */}
+            <Button size="sm" variant="ghost" onClick={openGoogleMaps}>
+              <CiLocationOn />
+            </Button>
+            {/* YouTube Videos */}
+            <Button size="sm" variant="ghost" onClick={openYouTubeSearch}>
+              <CiPlay1 />
+            </Button>
+          </div>
       </div>
     </div>
   );

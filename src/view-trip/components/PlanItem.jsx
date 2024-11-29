@@ -11,7 +11,7 @@ function PlanItem({ destination, place }) {
 
   useEffect(() => {
     getPhoto();
-  }, [place]);
+  }, []);
 
   const getPhoto = async () => {
     try {

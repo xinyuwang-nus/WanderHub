@@ -15,7 +15,7 @@ function ForgetPassword() {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:5038/api/forgot-password", { email }); // TODO
+      const response = await axios.post("http://localhost:5038/api/forgot-password", { email });
       setMessage(response.data.message);
     } catch (error) {
       console.error("Error resetting password:", error);

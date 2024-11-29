@@ -88,7 +88,6 @@ app.post("/api/trips", async (req, res) => {
   }
 });
 
-// TODO: diff between params and query
 app.get("/api/trips/:tripId", async (req, res) => {
   const { tripId } = req.params; // Extract tripId from URL parameters
   try {
@@ -122,9 +121,43 @@ app.get("/api/user-trips", async (req, res) => {
   }
 });
 
+app.delete("/api/user-trips/:tripId", async (req, res) => {
+  const { tripId } = req.params; // Extract tripId from URL parameters
+  const userEmail = req.query.email; // Extract user email from query parameters
+
+  if (!userEmail) {
+    return res.status(400).send({ error: "User email is required" });
+  }
+
+  try {
+    // Find the trip to verify ownership
+    const trip = await database.collection("trips").findOne({ id: tripId });
+
+    if (!trip) {
+      return res.status(404).send({ error: "Trip not found" });
+    }
+
+    // Check if the user is the owner of the trip
+    if (trip.email !== userEmail) {
+      return res.status(403).send({ error: "You are not authorized to delete this trip" });
+    }
+
+    // Proceed with deletion if the user is authorized
+    const result = await database.collection("trips").deleteOne({ id: tripId });
+
+    if (result.deletedCount === 1) {
+      res.status(200).send({ message: "Trip deleted successfully" });
+    } else {
+      res.status(500).send({ error: "Failed to delete trip" });
+    }
+  } catch (error) {
+    console.error("Error deleting trip:", error);
+    res.status(500).send({ error: "An error occurred while deleting the trip" });
+  }
+});
+
 
 // Endpoint to save unsplash images for a trip
-
 app.post("/api/trip-images", async (req, res) => {
   const { tripId, images } = req.body;
 

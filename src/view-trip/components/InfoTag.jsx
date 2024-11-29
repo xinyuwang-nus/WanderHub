@@ -96,11 +96,11 @@ function InfoTag({ tripData }) {
   return (
     <div>
       {loading ? (
-        <div className="w-full h-[400px] flex items-center justify-center bg-gray-200 rounded-xl">
+        <div className="w-full h-[450px] flex items-center justify-center bg-gray-200 rounded-xl">
           <p>Loading images...</p>
         </div>
       ) : (
-        <div className="relative w-full h-[400px]">
+        <div className="relative w-full h-[450px]">
           <img
             src={
               images[currentIndex] ? images[currentIndex] : "/placeholder.jpg"
@@ -123,8 +123,8 @@ function InfoTag({ tripData }) {
       )}
 
       <div className="flex justify-between items-center">
-        <div className="my-5 flex flex-col gap-2">
-          <h2 className="text-4xl font-medium">
+        <div className="my-8 flex flex-col gap-2">
+          <h2 className="text-5xl font-medium">
             {tripData?.selection?.destination?.label}
           </h2>
           <div className="hidden sm:flex gap-5 mt-2 font-light">
