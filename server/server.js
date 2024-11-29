@@ -351,3 +351,88 @@ app.get("/api/user-profile", (req, res) => {
     res.status(401).json({ error: "Invalid token" });
   }
 });
+
+
+app.post("/api/blogs", async (req, res) => {
+  try {
+    const { title, content, author, location, mood, date, latitude, longitude } = req.body;
+
+    if (!title || !content || !author || !date) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const collection = database.collection("blogs");
+    const result = await collection.insertOne({
+      title,
+      content,
+      author,
+      location: location || "Unknown location",
+      mood: mood || "Neutral",
+      date,
+      latitude: latitude || null, // Include latitude if provided
+      longitude: longitude || null, // Include longitude if provided
+    });
+
+    res.status(200).json({ message: "Blog saved successfully", result });
+  } catch (error) {
+    console.error("Error saving blog:", error);
+    res.status(500).json({ error: "Failed to save blog" });
+  }
+});
+
+app.get("/api/blogs", async (req, res) => {
+  try {
+    const collection = database.collection("blogs");
+    const blogs = await collection.find().toArray(); // Retrieve all blogs from the collection
+
+    if (!blogs.length) {
+      return res.status(404).json({ message: "No blogs found" }); // Handle the case of no blogs
+    }
+
+    res.status(200).json(blogs); // Return the blogs as a JSON array
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+    res.status(500).json({ error: "Failed to fetch blogs" });
+  }
+});
+
+app.post("/api/blogs/like", async (req, res) => {
+  const { title } = req.body;
+  try {
+    const collection = database.collection("blogs");
+    const blog = await collection.findOne({ title });
+
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+
+    const updatedLikes = (blog.likes || 0) + 1;
+
+    await collection.updateOne({ title }, { $set: { likes: updatedLikes } });
+
+    res.status(200).json({ title, likes: updatedLikes });
+  } catch (error) {
+    console.error("Error updating likes:", error);
+    res.status(500).json({ error: "Failed to update likes" });
+  }
+});
+app.post("/api/blogs/share", async (req, res) => {
+  const { title } = req.body;
+  try {
+    const collection = database.collection("blogs");
+    const blog = await collection.findOne({ title });
+
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+
+    const updatedShares = (blog.shares || 0) + 1;
+
+    await collection.updateOne({ title }, { $set: { shares: updatedShares } });
+
+    res.status(200).json({ title, shares: updatedShares });
+  } catch (error) {
+    console.error("Error updating shares:", error);
+    res.status(500).json({ error: "Failed to update shares" });
+  }
+});
