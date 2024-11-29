@@ -1,8 +1,4 @@
 
-
----
-
-
 # WanderHub
 
 WanderHub is an innovative platform designed to revolutionize travel planning by leveraging cutting-edge technologies. It empowers users to create personalized travel itineraries, explore destinations, and share their travel experiences through an engaging and user-friendly interface. By integrating powerful APIs such as OpenAI, Google Maps, and Unsplash, WanderHub delivers real-time, AI-driven insights and visually stunning content.
@@ -18,7 +14,50 @@ WanderHub is open-source and built with a modular architecture for scalability, 
 
 Join us in redefining the way the world travels with WanderHub!
 
----
+
+# Table of Contents
+
+1. [Introduction](#introduction)
+2. [WanderHub API Integration](#wanderhub-api-integration)
+   - [Google Maps API](#1-google-maps-api)
+   - [Google Places API](#2-google-places-api)
+   - [Maps JavaScript API](#3-maps-javascript-api)
+   - [OpenAI API](#4-openai-api)
+   - [Unsplash API](#5-unsplash-api)
+3. [Backend Modularization](#backend-modularization)
+   - [`api.js`](#1-apijs)
+   - [`gpt.js`](#2-gptjs)
+   - [`mongodb.js`](#3-mongodbjs)
+   - [`prompt.js`](#4-promptjs)
+   - [`server.js`](#5-serverjs)
+4. [Frontend Features](#frontend-features)
+   - [Header Component](#features-of-the-header-component)
+   - [Footer Component](#features-of-the-footer-component)
+   - [Register Page](#features-of-the-register-page)
+   - [Sign-In Page](#features-of-the-sign-in-page)
+   - [Landing Page](#features-of-the-landing-page)
+   - [Create Trip Page](#features-of-create-trip-page)
+   - [Create Blog Page](#features-of-create-blog-page)
+   - [View Blogs Page](#features-of-view-blogs-page)
+   - [User Trip Page](#features-of-user-trip-page)
+   - [View Trip Page](#features-of-view-trip-page)
+5. [Backend Features](#backend-features)
+   - [User Authentication](#user-authentication)
+   - [Trip Management](#trip-management)
+   - [Blog Management](#blog-management)
+   - [Image Management](#image-management)
+   - [Password Management](#password-management)
+   - [API Integrations](#api-integrations)
+   - [Middleware and Utilities](#middleware-and-utilities)
+   - [Deployment and Monitoring](#deployment-and-monitoring)
+6. [Steps to Run the Project](#steps-to-run-the-project)
+   - [Running the Frontend](#running-the-frontend)
+   - [Running the Backend](#running-the-backend)
+7. [Declaration](#declaration)
+
+
+
+
 # **WanderHub API Integration**
 
 ## **1. Google Maps API**
@@ -54,9 +93,8 @@ The Unsplash API adds a visually immersive dimension to WanderHub by supplying h
 
 The backend of the WanderHub application has been designed using a modular architecture to ensure better maintainability, scalability, and reusability of code. Below is an explanation of the modularization of the backend.
 
----
 
-## **1. `api.js`**
+### **1. `api.js`**
 - **Purpose**: Manages API endpoints for backend services.
 - **Responsibilities**:
   - Defines all route handlers for user requests.
@@ -66,7 +104,7 @@ The backend of the WanderHub application has been designed using a modular archi
 
 ---
 
-## **2. `gpt.js`**
+### **2. `gpt.js`**
 - **Purpose**: Integrates OpenAI's GPT API for generating AI-driven travel itineraries.
 - **Responsibilities**:
   - Handles communication with the OpenAI API.
@@ -76,7 +114,7 @@ The backend of the WanderHub application has been designed using a modular archi
 
 ---
 
-## **3. `mongodb.js`**
+### **3. `mongodb.js`**
 - **Purpose**: Manages MongoDB database connections and operations.
 - **Responsibilities**:
   - Establishes a connection to the MongoDB instance.
@@ -87,7 +125,7 @@ The backend of the WanderHub application has been designed using a modular archi
 
 ---
 
-## **4. `prompt.js`**
+### **4. `prompt.js`**
 - **Purpose**: Stores reusable prompts for the OpenAI API.
 - **Responsibilities**:
   - Centralizes static prompt templates used for generating AI responses.
@@ -97,7 +135,7 @@ The backend of the WanderHub application has been designed using a modular archi
 
 ---
 
-## **5. `server.js`**
+### **5. `server.js`**
 - **Purpose**: The main entry point for the backend application.
 - **Responsibilities**:
   - Initializes the Express app and sets up the server.
@@ -107,7 +145,6 @@ The backend of the WanderHub application has been designed using a modular archi
   - Serves as the central hub for application initialization.
   - Ensures all configurations and setups are organized in one place.
 
----
 
 ## **Advantages of Modularization**
 - **Scalability**: Independent modules allow the backend to scale effortlessly with additional features.
@@ -117,10 +154,9 @@ The backend of the WanderHub application has been designed using a modular archi
 
 By adopting this modularized structure, the backend of WanderHub is well-prepared for future enhancements and ensures clean, efficient, and maintainable code.
 
----
+
 # WanderHub frontend
 ## **Features of the Header Component**
-
 ### **User Authentication Management**
 - **Google Login**: 
   - Integrates Google OAuth 2.0 for seamless login functionality.
@@ -940,10 +976,10 @@ The Landing Page sets the tone for WanderHub, creating a visually engaging and u
   - Supports seamless integration with additional APIs for enhanced functionality.
 
 
-
-
 ---
-# WanderHub Backend#### **Trip Data Display**
+
+# Backend Features
+**Trip Data Display**
 - **Dynamic Trip Retrieval**:
   - Fetches trip details dynamically based on the `tripId` extracted from the URL.
   - Uses RESTful API integration to retrieve trip data from the backend.
