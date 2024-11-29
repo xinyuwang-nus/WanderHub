@@ -18,6 +18,15 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { FaGoogle } from "react-icons/fa";
 import { IoPersonOutline } from "react-icons/io5";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 function Header() {
   // Fetch user info if exists
   const [user, setUser] = useState(null);
@@ -92,8 +101,9 @@ function Header() {
       <div className="flex-none w-1/3 flex justify-end">
         {googleUser || user ? (
           <div>
-            <Popover>
-              <PopoverTrigger>
+            <DropdownMenu>
+              {/* Trigger for the Dropdown */}
+              <DropdownMenuTrigger>
                 <div className="h-[30px] w-[30px] rounded-full bg-gray-200 flex items-center justify-center">
                   {googleUser?.picture ? (
                     <img
@@ -105,26 +115,31 @@ function Header() {
                     <IoPersonOutline className="h-[20px] w-[20px] text-gray-500" />
                   )}
                 </div>
-              </PopoverTrigger>
-              <PopoverContent className="flex items-center gap-2">
-                <a href="/create-trip">
-                  <Button variant="outline" className="text-black">
-                    New Trip
-                  </Button>
-                </a>
-                <a href="/user-trip">
-                  <Button variant="outline" className="text-black">
-                    History
-                  </Button>
-                </a>
-                <Button
-                  variant="outline"
-                  className="text-black"
-                  onClick={handleLogout}>
+              </DropdownMenuTrigger>
+
+              {/* Dropdown Menu Content */}
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Links</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <a href="/create-trip">Create Trip</a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a href="/user-trip">Trip History</a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a href="/view-blogs">View Blogs</a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild >
+                  <a href="/create-blog">Create Blog</a>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={handleLogout} // Executes when the user selects this item
+                  className="text-red-700">
                   Sign Out
-                </Button>
-              </PopoverContent>
-            </Popover>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         ) : (
           <Dialog>

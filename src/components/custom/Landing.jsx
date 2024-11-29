@@ -96,10 +96,15 @@ function Landing() {
           <p className="text-xl text-gray-300 font-light">
             Explore new horizons and find inspiration for your next adventure.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex justify-center gap-2">
             <Link to={"/create-trip"}>
-              <Button variant="secondary" className="text-lg text-gray-100 border-gray-500 bg-gray-800 hover:bg-gray-700">
-                Get Started
+              <Button variant="secondary" className="text-lg text-black">
+                Create Trip
+              </Button>
+            </Link>
+            <Link to={"/view-blogs"}>
+              <Button variant="secondary" className="text-lg text-black">
+                View Blogs
               </Button>
             </Link>
           </div>

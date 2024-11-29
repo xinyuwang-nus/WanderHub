@@ -12,6 +12,8 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { SlLike } from "react-icons/sl";
 import { CiShare2 } from "react-icons/ci";
 import { Button } from "@/components/ui/button";
+import { IoAdd } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 import {
   AlertDialog,
@@ -161,7 +163,9 @@ function ViewBlogs() {
       initializeMap();
     } else {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_PLACE_API_KEY}`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${
+        import.meta.env.VITE_GOOGLE_PLACE_API_KEY
+      }`;
       script.async = true;
       script.defer = true;
       script.onload = initializeMap;
@@ -188,7 +192,7 @@ function ViewBlogs() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ _id: blog._id }),
       });
-  
+
       if (response.ok) {
         const updatedBlog = await response.json();
         setBlogs((prevBlogs) =>
@@ -203,7 +207,7 @@ function ViewBlogs() {
       console.error("Error updating likes:", error);
     }
   };
-  
+
   const handleShare = async (blog) => {
     try {
       const response = await fetch(`http://localhost:5038/api/blogs/share`, {
@@ -211,7 +215,7 @@ function ViewBlogs() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ _id: blog._id }),
       });
-  
+
       if (response.ok) {
         const updatedBlog = await response.json();
         setBlogs((prevBlogs) =>
@@ -219,7 +223,7 @@ function ViewBlogs() {
             b._id === blog._id ? { ...b, shares: updatedBlog.shares } : b
           )
         );
-  
+
         // Generate a shareable link
         const shareLink = `${window.location.origin}/blogs/${encodeURIComponent(
           blog._id
@@ -245,7 +249,6 @@ function ViewBlogs() {
       console.error("Error updating shares:", error);
     }
   };
-  
 
   useEffect(() => {
     if (map) {
@@ -315,19 +318,19 @@ function ViewBlogs() {
     return (
       <div className="flex items-center gap-4 mt-4">
         {/* Like Button */}
-        <Button variant="outline"
+        <Button
+          variant="outline"
           className="flex items-center gap-2"
-          onClick={() => handleLike(blog)}
-        >
+          onClick={() => handleLike(blog)}>
           <SlLike />
           <span className="font-light">{blog.likes || 0}</span>
         </Button>
-  
+
         {/* Share Button */}
-        <Button variant="outline"
+        <Button
+          variant="outline"
           className="flex items-center gap-2"
-          onClick={() => handleShare(blog)}
-        >
+          onClick={() => handleShare(blog)}>
           <CiShare2 />
           <span className="font-light">{blog.shares || 0}</span>
         </Button>
@@ -452,9 +455,19 @@ function ViewBlogs() {
       {view === "blogs" && (
         <div className="sm:px-10 md:px-30 lg:px-60 xl:px-80 px-5 my-10 pt-20">
           {/* Blogs Section */}
-          <h2 className="text-3xl font-medium mb-6">
-            {showUserBlogs ? "My Blogs" : "All Blogs"}
-          </h2>
+          <div className="flex justify-left mb-6 gap-5">
+            <h2 className="text-3xl font-medium">
+              {showUserBlogs ? "My Blogs" : "All Blogs"}
+            </h2>
+            {user && (
+              <Link to={"/create-blog"}>
+                <Button variant="secondary" className="flex items-center">
+                  <IoAdd />
+                </Button>
+              </Link>
+            )}
+          </div>
+
           {error && (
             <div className="text-red-500 bg-white p-4 rounded-lg shadow-md mb-4">
               {error}
