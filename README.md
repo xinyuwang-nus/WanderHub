@@ -458,7 +458,7 @@ The Landing Page sets the tone for WanderHub, creating a visually engaging and u
 - **Data Persistence**:
   - Stores user selections and generated trips in a MongoDB database for future access.
 
-## **Features of Create Blog Page**
+## **Blog Management**
 
 ### **Blog Submission Form**
 - **Title Input**:
@@ -1108,7 +1108,7 @@ This repository contains the backend code for WanderHub, a travel planning platf
 
 ## Features of `server.js` in the Backend
 
-### **1. User Authentication and Authorization**
+### **User Authentication and Authorization**
 - **Registration**: Users can register with their name, email, and password. Passwords are securely hashed using `bcrypt` before storage in MongoDB.
 - **Login**: Users can log in with their credentials. A JWT token is generated upon successful login for secure session handling.
 - **Google Login**: OAuth 2.0 integration enables seamless Google login for enhanced user convenience.
@@ -1116,7 +1116,7 @@ This repository contains the backend code for WanderHub, a travel planning platf
 
 ---
 
-### **2. Trip Management**
+### **Trip Management**
 - **Create Trip**:
   - Generates travel plans dynamically using the OpenAI API based on user preferences like destination, budget, and activities.
 - **Save Trip**:
@@ -1130,7 +1130,7 @@ This repository contains the backend code for WanderHub, a travel planning platf
 
 ---
 
-### **3. Blog Management**
+### **Blog Management**
 - **Create Blog**:
   - Users can create blogs with fields such as title, content, mood, location, and optional latitude/longitude data.
 - **Retrieve All Blogs**:
@@ -1142,7 +1142,7 @@ This repository contains the backend code for WanderHub, a travel planning platf
 
 ---
 
-### **4. Image Management**
+### **Image Management**
 - **Save Images**:
   - Stores Unsplash images associated with specific trips, preventing duplicate entries using upsert operations.
 - **Retrieve Images**:
@@ -1150,7 +1150,7 @@ This repository contains the backend code for WanderHub, a travel planning platf
 
 ---
 
-### **5. Password Management**
+### **Password Management**
 - **Forgot Password**:
   - Generates a secure reset token and sends it via email, allowing users to reset their password.
 - **Reset Password**:
@@ -1158,7 +1158,7 @@ This repository contains the backend code for WanderHub, a travel planning platf
 
 ---
 
-### **6. API Integrations**
+### **API Integrations**
 - **OpenAI API**:
   - Generates detailed travel plans tailored to user inputs.
 - **Google Maps API**:
@@ -1172,7 +1172,7 @@ This repository contains the backend code for WanderHub, a travel planning platf
 
 ---
 
-### **7. Middleware and Utilities**
+### **Middleware and Utilities**
 - **CORS Middleware**:
   - Enables cross-origin requests, allowing seamless frontend-backend communication.
 - **JSON Parser**:
@@ -1182,7 +1182,7 @@ This repository contains the backend code for WanderHub, a travel planning platf
 
 ---
 
-### **8. Deployment and Monitoring**
+### **Deployment and Monitoring**
 - **Port Configuration**:
   - The server runs on port `5038` by default.
 - **Environment Variables**:
