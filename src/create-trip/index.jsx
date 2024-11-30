@@ -43,6 +43,15 @@ function CreateTrip() {
   //     console.log("form data: ", formData);
   //   }, [formData]);
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!window.google || !window.google.maps || !window.google.maps.places) {
+        window.location.reload();
+      }
+    }, 1000); 
+    return () => clearTimeout(timeout);
+  }, []);
+
   const createTrip = async () => {
     if (
       !formData?.destination ||
@@ -185,7 +194,7 @@ function CreateTrip() {
                 },
                 placeholder: "Search",
               }}
-            />
+                />
           </div>
           <div className="flex-1 min-w-[250px]">
             <h2 className="text-xl my-3">Duration</h2>
