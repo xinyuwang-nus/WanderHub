@@ -2,9 +2,11 @@
 # WanderHub
 
 WanderHub is an innovative platform designed to revolutionize travel planning by leveraging cutting-edge technologies. It empowers users to create personalized travel itineraries, explore destinations, and share their travel experiences through an engaging and user-friendly interface. By integrating powerful APIs such as OpenAI, Google Maps, and Unsplash, WanderHub delivers real-time, AI-driven insights and visually stunning content.
-[The link of Wanderhub Google Drive Folder](https://drive.google.com/drive/folders/1pmpoM9JuYPt4QqqySxxQW5oW3V6mqxON?usp=sharing): https://drive.google.com/drive/folders/1pmpoM9JuYPt4QqqySxxQW5oW3V6mqxON?usp=sharing
-[The link of Wanderhub Powerpoint Slides:](https://drive.google.com/file/d/1v0Yen_xQbeb-beg3p5lAi3936tgKgiXt/view?usp=sharing)[ https://drive.google.com/file/d/1BVRAyPbMdyyHOhXNI3B_9goPlkMPUQrP/view?usp=sharing]
-[The link of Wanderhub Report:](https://drive.google.com/file/d/1BVRAyPbMdyyHOhXNI3B_9goPlkMPUQrP/view?usp=sharing) [https://drive.google.com/file/d/1BVRAyPbMdyyHOhXNI3B_9goPlkMPUQrP/view?usp=sharing]
+
+- [The link of Wanderhub Google Drive Folder](https://drive.google.com/drive/folders/1pmpoM9JuYPt4QqqySxxQW5oW3V6mqxON?usp=sharing)
+- [The link of Wanderhub Powerpoint Slides](https://drive.google.com/file/d/1v0Yen_xQbeb-beg3p5lAi3936tgKgiXt/view?usp=sharing)
+- [The link of Wanderhub Report](https://drive.google.com/file/d/1BVRAyPbMdyyHOhXNI3B_9goPlkMPUQrP/view?usp=sharing)
+  
 The platform provides a seamless experience for travelers to:
 - Log in securely via Google or the WanderHub platform.
 - Plan detailed trips, including destinations, accommodations, activities, and budgets.
