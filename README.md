@@ -8,7 +8,7 @@ WanderHub is an innovative platform designed to revolutionize travel planning by
 - [The link of Video Demo of Wanderhub](https://youtu.be/7fWhsL7q7ug?si=5DIQ3_KKCsF2V4N1)
 - [The link of Wanderhub Google Drive Folder](https://drive.google.com/drive/folders/1pmpoM9JuYPt4QqqySxxQW5oW3V6mqxON?usp=sharing)
 - [The link of Wanderhub Powerpoint Slides](https://drive.google.com/file/d/1v0Yen_xQbeb-beg3p5lAi3936tgKgiXt/view?usp=sharing)
-- [The link of Wanderhub Report](https://drive.google.com/file/d/1BVRAyPbMdyyHOhXNI3B_9goPlkMPUQrP/view?usp=sharing)
+- [[The link of Wanderhub Report]](https://drive.google.com/file/d/1vF2ZfI0aS2dFSY15D2jrk5ZJG6wr1dJB/view?usp=drive_link)
 
   
 The platform provides a seamless experience for travelers to:
