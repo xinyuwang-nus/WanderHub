@@ -3,6 +3,7 @@
 
 WanderHub is an innovative platform designed to revolutionize travel planning by leveraging cutting-edge technologies. It empowers users to create personalized travel itineraries, explore destinations, and share their travel experiences through an engaging and user-friendly interface. By integrating powerful APIs such as OpenAI, Google Maps, and Unsplash, WanderHub delivers real-time, AI-driven insights and visually stunning content.
 
+- [The Deployment link of Wanderhub](https://wanderhub-1115-0807.vercel.app/)
 - [The link of Wanderhub Google Drive Folder](https://drive.google.com/drive/folders/1pmpoM9JuYPt4QqqySxxQW5oW3V6mqxON?usp=sharing)
 - [The link of Wanderhub Powerpoint Slides](https://drive.google.com/file/d/1v0Yen_xQbeb-beg3p5lAi3936tgKgiXt/view?usp=sharing)
 - [The link of Wanderhub Report](https://drive.google.com/file/d/1BVRAyPbMdyyHOhXNI3B_9goPlkMPUQrP/view?usp=sharing)
@@ -16,8 +17,7 @@ The platform provides a seamless experience for travelers to:
 
 WanderHub is open-source and built with a modular architecture for scalability, maintainability, and ease of integration. The backend, developed using Node.js and MongoDB, ensures robust data management and secure operations, while the React.js-based frontend delivers a responsive and visually captivating user interface.
 
-Join us in redefining the way the world travels with WanderHub!
-The Link of Deployment: https://wanderhub-1115-0807.vercel.app/
+Join us in redefining the way the world travels with WanderHub! The Link of Deployment is https://wanderhub-1115-0807.vercel.app/
 
 # Table of Contents
 
