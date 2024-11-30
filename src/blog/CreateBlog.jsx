@@ -56,10 +56,19 @@ function CreateBlog() {
     { label: "Curious", value: "Curious" },
   ];
 
+  // useEffect(() => {
+  //   getUser();
+  //   fetchBlogs(); // Fetch blogs when the component mounts
+  //   loadGoogleMapsAPI();
+  // }, []);
+
   useEffect(() => {
     getUser();
-    fetchBlogs(); // Fetch blogs when the component mounts
-    loadGoogleMapsAPI();
+    fetchBlogs();
+    // Wait for DOM to be ready
+    if (mapRef.current && document.getElementById("location-search")) {
+      loadGoogleMapsAPI();
+    }
   }, []);
 
   const getUser = async () => {
@@ -94,21 +103,43 @@ function CreateBlog() {
   };
 
   const loadGoogleMapsAPI = () => {
-    if (window.google && window.google.maps) {
+    // Check if the API is already loaded
+    if (window.google && window.google.maps && window.google.maps.places) {
       initializeMap();
-    } else {
-      const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${
-        import.meta.env.VITE_GOOGLE_PLACE_API_KEY
-      }&libraries=places`;
-      script.async = true;
-      script.defer = true;
-      script.onload = initializeMap;
-      document.head.appendChild(script);
+      return;
     }
+  
+    // Create a script tag to load the Google Maps API
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${
+      import.meta.env.VITE_GOOGLE_PLACE_API_KEY
+    }&libraries=places`;
+    script.async = true;
+    script.defer = true;
+  
+    // Wait for the API to be ready
+    script.onload = () => {
+      const waitForGoogleMaps = setInterval(() => {
+        if (window.google && window.google.maps && window.google.maps.places) {
+          clearInterval(waitForGoogleMaps);
+          initializeMap();
+        }
+      }, 100); // Check every 100ms
+    };
+  
+    script.onerror = () => {
+      console.error("Failed to load Google Maps API.");
+    };
+  
+    document.head.appendChild(script);
   };
-
+  
   const initializeMap = () => {
+    if (!window.google || !window.google.maps || !window.google.maps.places) {
+      console.error("Google Maps Places library is not loaded.");
+      return;
+    }
+
     const mapInstance = new window.google.maps.Map(mapRef.current, {
       center: { lat: 1.3521, lng: 103.8198 },
       zoom: 12,

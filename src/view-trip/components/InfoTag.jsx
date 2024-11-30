@@ -21,7 +21,7 @@ function InfoTag({ tripData }) {
 
   const handleShare = async () => {
     const url = window.location.href; // Current page URL
-    const title = "Check out this amazing Singapore trip plan!";
+    const title = "Check out this amazing trip plan!";
 
     if (navigator.share) {
       try {

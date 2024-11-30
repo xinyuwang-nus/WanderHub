@@ -373,17 +373,10 @@ app.delete("/blogs/:blogId", async (req, res) => {
 });
 
 app.post("/blogs/like", async (req, res) => {
-  const { _id } = req.body; // Expect _id in the request body
-
-  if (!_id) {
-    return res.status(400).json({ error: "Blog ID is required" });
-  }
-
+  const { title } = req.body;
   try {
     const collection = database.collection("blogs");
-
-    // Find the blog by its ObjectId
-    const blog = await collection.findOne({ _id: ObjectId.createFromHexString(inputId) });
+    const blog = await collection.findOne({ title });
 
     if (!blog) {
       return res.status(404).json({ error: "Blog not found" });
@@ -391,32 +384,20 @@ app.post("/blogs/like", async (req, res) => {
 
     const updatedLikes = (blog.likes || 0) + 1;
 
-    // Update the blog's likes
-    await collection.updateOne(
-      { _id: ObjectId.createFromHexString(inputId) },
-      { $set: { likes: updatedLikes } }
-    );
+    await collection.updateOne({ title }, { $set: { likes: updatedLikes } });
 
-    res.status(200).json({ _id, likes: updatedLikes });
+    res.status(200).json({ title, likes: updatedLikes });
   } catch (error) {
     console.error("Error updating likes:", error);
     res.status(500).json({ error: "Failed to update likes" });
   }
 });
 
-
 app.post("/blogs/share", async (req, res) => {
-  const { _id } = req.body; // Expect _id in the request body
-
-  if (!_id) {
-    return res.status(400).json({ error: "Blog ID is required" });
-  }
-
+  const { title } = req.body;
   try {
     const collection = database.collection("blogs");
-
-    // Find the blog by its ObjectId
-    const blog = await collection.findOne({ _id: ObjectId.createFromHexString(inputId) });
+    const blog = await collection.findOne({ title });
 
     if (!blog) {
       return res.status(404).json({ error: "Blog not found" });
@@ -424,13 +405,9 @@ app.post("/blogs/share", async (req, res) => {
 
     const updatedShares = (blog.shares || 0) + 1;
 
-    // Update the blog's shares
-    await collection.updateOne(
-      { _id: ObjectId.createFromHexString(inputId) },
-      { $set: { shares: updatedShares } }
-    );
+    await collection.updateOne({ title }, { $set: { shares: updatedShares } });
 
-    res.status(200).json({ _id, shares: updatedShares });
+    res.status(200).json({ title, shares: updatedShares });
   } catch (error) {
     console.error("Error updating shares:", error);
     res.status(500).json({ error: "Failed to update shares" });

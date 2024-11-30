@@ -191,14 +191,14 @@ function ViewBlogs() {
       const response = await fetch(`${API_BASE_URL}/blogs/like`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ _id: blog._id }),
+        body: JSON.stringify({ title: blog.title }),
       });
 
       if (response.ok) {
         const updatedBlog = await response.json();
         setBlogs((prevBlogs) =>
           prevBlogs.map((b) =>
-            b._id === blog._id ? { ...b, likes: updatedBlog.likes } : b
+            b.title === blog.title ? { ...b, likes: updatedBlog.likes } : b
           )
         );
       } else {
@@ -214,21 +214,19 @@ function ViewBlogs() {
       const response = await fetch(`${API_BASE_URL}/blogs/share`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ _id: blog._id }),
+        body: JSON.stringify({ title: blog.title }),
       });
 
       if (response.ok) {
         const updatedBlog = await response.json();
         setBlogs((prevBlogs) =>
           prevBlogs.map((b) =>
-            b._id === blog._id ? { ...b, shares: updatedBlog.shares } : b
+            b.title === blog.title ? { ...b, shares: updatedBlog.shares } : b
           )
         );
 
         // Generate a shareable link
-        const shareLink = `${window.location.origin}/blogs/${encodeURIComponent(
-          blog._id
-        )}`;
+        const shareLink = `${window.location.origin}/blogs/${encodeURIComponent(blog.title)}`;
         if (navigator.share) {
           try {
             await navigator.share({
@@ -363,7 +361,6 @@ function ViewBlogs() {
                 Location: {blog.location || "No location specified"}
               </p>
 
-              {/* Like and Share Buttons */}
               <BlogActions
                 blog={blog}
                 handleLike={handleLike}
