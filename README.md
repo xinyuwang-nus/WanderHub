@@ -26,6 +26,25 @@ Join us in redefining the way the world travels with WanderHub! The Link of Depl
 
 1. [Introduction](#introduction)
 2. [WanderHub API Integration](#wanderhub-api-integration)
+   
+   [REST API Documentation](#rest-api-documentation)
+   - [1. Create Trip](#1-create-trip)
+   - [2. Save Trip](#2-save-trip)
+   - [3. Get Trip by ID](#3-get-trip-by-id)
+   - [4. Get User's Trips](#4-get-users-trips)
+   - [5. Delete User's Trip](#5-delete-users-trip)
+   - [6. Save Trip Images](#6-save-trip-images)
+   - [7. Retrieve Trip Images](#7-retrieve-trip-images)
+   - [8. Register User](#8-register-user)
+   - [9. User Login](#9-user-login)
+   - [10. Get User Profile](#10-get-user-profile)
+   - [11. Save Blog](#11-save-blog)
+   - [12. Get All Blogs](#12-get-all-blogs)
+   - [13. Delete Blog](#13-delete-blog)
+   - [14. Like Blog](#14-like-blog)
+   - [15. Share Blog](#15-share-blog)
+    
+    [Third-Party API Documentation](#third-party-api-documentation)
    - [Google Maps API](#1-google-maps-api)
    - [Google Places API](#2-google-places-api)
    - [Maps JavaScript API](#3-maps-javascript-api)
@@ -72,30 +91,203 @@ Join us in redefining the way the world travels with WanderHub! The Link of Depl
 
 # **WanderHub API Integration**
 
-## **1. Google Maps API**
+## REST API Documentation
+
+### **1. Create Trip**
+- **URL:** `/create-trip`
+- **Method:** `POST`
+- **Request Body:**
+  ```json
+  {
+    "destination": "string",
+    "duration": "number",
+    "traveler": "string",
+    "budget": "string",
+    "activities": ["string"]
+  }
+  ```
+
+---
+
+### **2. Save Trip**
+- **URL:** `/trips`
+- **Method:** `POST`
+- **Request Body:**
+  ```json
+  {
+    "destination": "string",
+    "duration": "number",
+    "traveler": "string",
+    "budget": "string",
+    "activities": ["string"],
+    "email": "string"
+  }
+  ```
+---
+
+### **3. Get Trip by ID**
+- **URL:** `/trips/:tripId`
+- **Method:** `GET`
+- **Response:** 
+  ```json
+  { "trip": "object" }
+  ```
+
+---
+
+### **4. Get User's Trips**
+- **URL:** `/user-trips`
+- **Method:** `GET`
+- **Query Params:** `email=string`
+- **Response:** Array of trips.
+
+---
+
+### **5. Delete User's Trip**
+- **URL:** `/user-trips/:tripId`
+- **Method:** `DELETE`
+- **Query Params:** `email=string`
+
+---
+
+### **6. Save Trip Images**
+- **URL:** `/trip-images`
+- **Method:** `POST`
+- **Request Body:**
+  ```json
+  {
+    "tripId": "string",
+    "images": ["string"]
+  }
+  ```
+
+---
+
+### **7. Retrieve Trip Images**
+- **URL:** `/trip-images/:tripId`
+- **Method:** `GET`
+- **Response:** Array of images.
+
+---
+
+### **8. Register User**
+- **URL:** `/register`
+- **Method:** `POST`
+- **Request Body:**
+  ```json
+  {
+    "name": "string",
+    "email": "string",
+    "password": "string"
+  }
+  ```
+
+---
+
+### **9. User Login**
+- **URL:** `/login`
+- **Method:** `POST`
+- **Request Body:**
+  ```json
+  {
+    "email": "string",
+    "password": "string"
+  }
+  ```
+
+---
+
+### **10. Get User Profile**
+- **URL:** `/user-profile`
+- **Method:** `GET`
+- **Headers:** 
+  ```json
+  { "Authorization": "Bearer <JWT_TOKEN>" }
+  ```
+- **Response:** User profile information.
+
+---
+
+### **11. Save Blog**
+- **URL:** `/blogs`
+- **Method:** `POST`
+- **Request Body:**
+  ```json
+  {
+    "title": "string",
+    "content": "string",
+    "author": "string",
+    "email": "string",
+    "location": "string",
+    "mood": "string",
+    "date": "string",
+    "latitude": "number",
+    "longitude": "number"
+  }
+  ```
+
+---
+
+### **12. Get All Blogs**
+- **URL:** `/blogs`
+- **Method:** `GET`
+- **Response:** Array of blogs.
+
+---
+
+### **13. Delete Blog**
+- **URL:** `/blogs/:blogId`
+- **Method:** `DELETE`
+- **Query Params:** `email=string`
+
+---
+
+### **14. Like Blog**
+- **URL:** `/blogs/like`
+- **Method:** `POST`
+- **Request Body:**
+  ```json
+  { "title": "string" }
+  ```
+
+---
+
+### **15. Share Blog**
+- **URL:** `/blogs/share`
+- **Method:** `POST`
+- **Request Body:**
+  ```json
+  { "title": "string" }
+  ```
+- **Response:** Updated share count.
+
+
+## Third-Party API Documentation
+
+### **1. Google Maps API**
 The Google Maps API serves as a core component of WanderHub, providing powerful geolocation and mapping functionalities. It enhances the platform in the following ways:
 - **Interactive Maps**: Enables rendering of interactive maps in modules like `ViewMap`.
 - **Geocoding**: Facilitates precise visualization of routes, destinations, and travel plans.
 - **Seamless Navigation**: Assists users in exploring travel destinations with ease.
 
-## **2. Google Places API**
+### **2. Google Places API**
 The Google Places API enriches the user experience by delivering location-specific details and suggestions:
 - **Detailed Location Data**: Provides information about destinations, including nearby attractions, ratings, and reviews.
 - **Personalized Travel Planning**: Integrated into the `CreateTrip` module, assisting users in curating tailored travel plans based on their preferences.
 
-## **3. Maps JavaScript API**
+### **3. Maps JavaScript API**
 The Maps JavaScript API powers advanced mapping features to enhance user interaction:
 - **Dynamic Pins**: Renders pins on maps, allowing users to explore destinations interactively.
 - **Layered Visualizations**: Offers interactive layers for a deeper understanding of travel routes and destinations.
 - **Enhanced Engagement**: Improves user engagement through intuitive navigation features.
 
-## **4. OpenAI API**
-The OpenAI API is at the heart of WanderHub’s AI-powered itinerary generation system:
+### **4. OpenAI (GPT) API**
+The GPT3.5 Turbo API is at the heart of WanderHub’s AI-powered itinerary generation system:
 - **Tailored Travel Plans**: Processes user inputs, such as destination, duration, budget, and activities, to create personalized itineraries.
 - **AI-Driven Personalization**: Elevates the travel planning experience by offering intelligent and user-centric recommendations.
 - **Integrated Module**: Key component of the `CreateTrip` module for generating optimized travel itineraries.
 
-## **5. Unsplash API**
+### **5. Unsplash API**
 The Unsplash API adds a visually immersive dimension to WanderHub by supplying high-quality images:
 - **Visual Appeal**: Enhances the platform with stunning visuals of travel destinations.
 - **Engagement**: Keeps users visually engaged while exploring trip options.
