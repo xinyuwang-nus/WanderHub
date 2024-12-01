@@ -1,27 +1,60 @@
-<img width="396" alt="image" src="https://github.com/user-attachments/assets/5e4e14bc-18bc-445a-9ff8-a628ad13cc78">
+<img width="200" alt="image" src="https://github.com/user-attachments/assets/5e4e14bc-18bc-445a-9ff8-a628ad13cc78">
 
 # WanderHub
 
-WanderHub is an innovative platform designed to revolutionize travel planning by leveraging cutting-edge technologies. It empowers users to create personalized travel itineraries, explore destinations, and share their travel experiences through an engaging and user-friendly interface. By integrating powerful APIs such as OpenAI, Google Maps, and Unsplash, WanderHub delivers real-time, AI-driven insights and visually stunning content.
+WanderHub is an innovative platform designed to revolutionize travel planning and blog sharing. It empowers users to create personalized travel itineraries and share their travel experiences through an engaging interface. By integrating powerful APIs, WanderHub delivers AI-driven insights and visually stunning content.
 
-- [The Deployment link of Wanderhub](https://wanderhub-1115-0807.vercel.app/)
-- [The link of Video Demo of Wanderhub](https://youtu.be/7fWhsL7q7ug?si=5DIQ3_KKCsF2V4N1)
-- [The link of Wanderhub Google Drive Folder](https://drive.google.com/drive/folders/1pmpoM9JuYPt4QqqySxxQW5oW3V6mqxON?usp=sharing)
-- [The link of Wanderhub Powerpoint Slides](https://drive.google.com/file/d/1v0Yen_xQbeb-beg3p5lAi3936tgKgiXt/view?usp=sharing)
-- [The link of Wanderhub Report](https://drive.google.com/file/d/1vF2ZfI0aS2dFSY15D2jrk5ZJG6wr1dJB/view?usp=drive_link)
-
+- 🔗 [**Deployment link**](https://wanderhub-1115-0807.vercel.app/)
+- 🔗 [**Video Demo**](https://youtu.be/7fWhsL7q7ug?si=5DIQ3_KKCsF2V4N1)
+- 🔗 [**Report**](https://drive.google.com/file/d/1vF2ZfI0aS2dFSY15D2jrk5ZJG6wr1dJB/view?usp=drive_link)
+- 🔗 [Powerpoint Slides](https://drive.google.com/file/d/1v0Yen_xQbeb-beg3p5lAi3936tgKgiXt/view?usp=sharing)
+- 🔗 [Google Drive Folder](https://drive.google.com/drive/folders/1pmpoM9JuYPt4QqqySxxQW5oW3V6mqxON?usp=sharing)
   
-The platform provides a seamless experience for travelers to:
-- Log in securely via Google or the WanderHub platform.
-- Plan detailed trips, including destinations, accommodations, activities, and budgets.
-- Access and manage their travel history effortlessly.
-- Share reflections and stories through a blogging feature.
-- Interact with a community of travelers by exploring shared trips on an interactive map with pins, likes, and sharing options.
+##  Deployment
 
-WanderHub is open-source and built with a modular architecture for scalability, maintainability, and ease of integration. The backend, developed using Node.js and MongoDB, ensures robust data management and secure operations, while the React.js-based frontend delivers a responsive and visually captivating user interface.
+- **Website Link**: 🌐 [WanderHub](https://wanderhub-1115-0807.vercel.app/) 
+- **Important**: 🚨 For server hosting, since I'm using a free instance, the server will spin down with inactivity. This could delay the **first request by 50 seconds or more**. ⏳ Please be patient while the server spins up after the initial request! 
 
-Join us in redefining the way the world travels with WanderHub! The Link of Deployment is https://wanderhub-1115-0807.vercel.app/
 
+## Tech Stack Overview
+
+### Frontend
+- **Framework**: [React](https://react.dev/)
+
+### Backend
+- **Server Framework**: [Express](https://expressjs.com/)
+- **Database**: [MongoDB Atlas Cloud Database](https://www.mongodb.com/products/platform/atlas-database)
+- **Runtime Environment**: [Node.js](https://nodejs.org/)
+
+### Deployment
+- **Frontend and Domain Hosting**: [Vercel](https://vercel.com/docs/frameworks/vite)
+- **Server Hosting**: [Render](https://render.com/)
+
+### Libraries and UI Resources
+- [React Router](https://reactrouter.com/6.28.0/start/overview)
+- [Axios](https://axios-http.com/docs/intro)
+- [Shadcn UI](https://ui.shadcn.com/docs/installation/vite): For all the UI elements used
+- [React Icons](https://react-icons.github.io/react-icons/): For all the icons used
+- [Google Fonts](https://fonts.google.com/selection/embed): Website font: *Afacad Flux*
+- [Logo Ipsum](https://logoipsum.com/): Website logo
+
+### APIs
+#### Google APIs & Services
+- **Google Maps**:
+  - [Geocoding API](https://developers.google.com/maps/documentation/geocoding/overview)
+  - [Geolocation API](https://developers.google.com/maps/documentation/geolocation/overview)
+  - [Places API](https://developers.google.com/maps/documentation/places/web-service/overview):
+    - [Text Search](https://developers.google.com/maps/documentation/places/web-service/text-search)
+    - [Place Photo](https://developers.google.com/maps/documentation/places/web-service/place-photos)
+  - [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview)
+- **Authentication**:
+  - [OAuth 2.0](https://developers.google.com/identity/sign-in/web/sign-in)
+
+#### Other APIs
+- [OpenAI API](https://platform.openai.com/docs/overview): GPT 3.5 Turbo
+- [Unsplash API](https://unsplash.com/documentation)
+
+---
 # Table of Contents
 
 1. [Introduction](#introduction)
@@ -86,8 +119,13 @@ Join us in redefining the way the world travels with WanderHub! The Link of Depl
    - [CI/CD](#Continuous-Integration-and-Deployment (CI/CD))
 8. [Declaration](#declaration)
 
-
-
+# **Introduction**
+The platform provides a seamless experience for travelers to:
+- Log in securely via Google or the WanderHub platform.
+- Plan detailed trips, including destinations, accommodations, and activities.
+- Access and manage their trip history effortlessly.
+- Share reflections and stories through a blogging feature.
+- Interact with a community of travelers by exploring shared trips on an interactive map with pins, likes, and sharing options.
 
 # **WanderHub API Integration**
 
@@ -1474,7 +1512,7 @@ The deployment pipeline follows a **Continuous Integration and Continuous Deploy
 
 # **Declaration**
 
-We, Group 15, hereby declare that all  implementations presented in this project have been independently developed and written by ourselves. The work has been completed entirely by the team members and represents our original efforts.
+We (Group 15) hereby declare that all implementations presented in this project have been independently developed and written by ourselves. The work has been completed entirely by the team members and represents our original efforts. We would also like to acknowledge the assistance of ChatGPT for providing guidance and code reviews during the development process.
 
 Date: *[2024.11.30]*
 
