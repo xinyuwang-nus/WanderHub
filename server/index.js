@@ -1,14 +1,14 @@
 import Express from "express";
 import { MongoClient } from "mongodb";
 import cors from "cors"; // to allow cross-origin requests
-import dotenv from "dotenv"; // to read .env file
+// import dotenv from "dotenv"; // to read .env file
 import bcrypt from "bcrypt";
 import OpenAI from "openai";
 import { EXAMPLE_JSON } from "./prompt.js";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 
-// dotenv.config({ path: ".env.local" });
+// dotenv.config({ path: ".env.local" }); // Load environment variables
 
 const app = Express();
 app.use(cors());
@@ -21,16 +21,10 @@ var DATABASE_NAME = "WanderHub";
 
 var database;
 
-// Connect to MongoDB first, then start the server
 MongoClient.connect(CONNECTION_STRING)
   .then((client) => {
     database = client.db(DATABASE_NAME);
     console.log("MongoDB Connected successfully");
-
-    // // Start the server after the database connection is established
-    // app.listen(port, () => {
-    //   console.log(`Server running on http://localhost:${port}`);
-    // });
   })
   .catch((error) => {
     console.error("Failed to connect to MongoDB", error);
